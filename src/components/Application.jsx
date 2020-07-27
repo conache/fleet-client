@@ -15,5 +15,4 @@ class Application extends Component {
   }
 }
 
-
 export default connect(null, null)(Application);

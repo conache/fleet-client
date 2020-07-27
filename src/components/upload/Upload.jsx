@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import FileUploader from './FileUploader';
+import FileInput from '../shared/FileInput';
+import FileUploader from '../../services/FileUploader';
 
 class Upload extends Component {
     constructor() {
@@ -9,7 +10,7 @@ class Upload extends Component {
     }
 
     render() {
-        return <div> This is a test component</div>
+        return <FileInput onSubmit={(filePath) => {console.log(filePath);}} />
     }
 }
 
