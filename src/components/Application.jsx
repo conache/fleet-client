@@ -1,26 +1,19 @@
-import React from "react";
-import logo from "../assets/logo.svg";
-import "../style/Application.scss";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import '../style/Application.scss';
+import { connect } from 'react-redux';
+import Upload from './upload/Upload';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class Application extends Component {
+  render() {
+    return (
+        <Router>
+          <Route exact path="/" component={Upload} />
+        </Router>
+    );
+  }
 }
 
-export default App;
+
+export default connect(null, null)(Application);
