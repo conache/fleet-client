@@ -18,7 +18,6 @@ class FileUploader {
             }));
             UploadsAPI.sendFileChunk(jsonArray);
         });
-
     }
 }
 
