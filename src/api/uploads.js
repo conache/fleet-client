@@ -5,6 +5,6 @@ export function createUpload() {
   return request(httpVerb.POST, 'upload/create');
 }
 
-export function sendFileChunk() {
-  return new Promise();
+export function sendFileChunk(arr) {
+  return request(httpVerb.POST, 'upload/chunk', {chunk: arr});
 }
