@@ -1,7 +1,14 @@
+import * as UploadsAPI from '../api/uploads'
+
 class FileUploader {
-    constructor() {
-        console.log("File uploader was instantiated, hehehe");
+    constructor(file) {
+        this.file = file;
     }
+
+    startUpload() {
+        UploadsAPI.createUpload();
+    }
+
 }
 
 export default FileUploader;

@@ -3,15 +3,14 @@ import FileInput from '../shared/FileInput';
 import FileUploader from '../../services/FileUploader';
 
 class Upload extends Component {
-    constructor() {
-        super();
-        
-        this.fileUploader = new FileUploader();
+    render() {
+        return <FileInput onSubmit={(file) => this.handleFileSubmit(file)} />
     }
 
-    render() {
-        return <FileInput onSubmit={(filePath) => {console.log(filePath);}} />
+    handleFileSubmit(file) {
+        const fileUploader = new FileUploader(file);
+        fileUploader.startUpload();
     }
 }
-
+  
 export default Upload;

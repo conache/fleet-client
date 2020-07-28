@@ -2,7 +2,12 @@ import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import Immutable from 'seamless-immutable';
 
+import app from './ducks/app';
+import user from './ducks/user';
+
 const initialState = Immutable({
+  app: {},
+  user: {}
 });
 
 // A Middleware got logging
@@ -11,7 +16,6 @@ const logger = (store) => (next) => (action) => {
 
   console.groupCollapsed('[ACTION]', action.type);
   console.log('Payload:', action.payload);
-
   console.log('State:', store.getState());
   console.groupEnd('[ACTION]', action.type);
 
@@ -22,7 +26,10 @@ const logger = (store) => (next) => (action) => {
 const reducer = combineReducers(
   Object.assign(
     {},
-    {},
+    {
+      app,
+      user,
+    },
   ),
 );
 
