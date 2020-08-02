@@ -4,6 +4,7 @@ import Immutable from 'seamless-immutable';
 
 import app from './ducks/app';
 import user from './ducks/user';
+import uploads from './ducks/uploads';
 
 const initialState = Immutable({
   app: {},
@@ -29,6 +30,7 @@ const reducer = combineReducers(
     {
       app,
       user,
+      uploads,
     },
   ),
 );

@@ -1,4 +1,6 @@
 import * as UploadsAPI from '../api/uploads'
+import store from '../store'
+import {updateProgress} from '../ducks/uploads'
 
 class FileUploader {
     constructor(file) {
@@ -18,6 +20,10 @@ class FileUploader {
             }));
             UploadsAPI.sendFileChunk(jsonArray);
         });
+    }
+
+    testDispatch() {
+        store.dispatch(updateProgress(12));
     }
 }
 
