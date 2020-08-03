@@ -14,8 +14,8 @@ class Upload extends Component {
     }
 
     handleFileSubmit(file) {
-        const fileUploader = new FileUploader(file);
-        fileUploader.testDispatch();
+        FileUploader.uploadFile(file);
+        // fileUploader.testDispatch();
     }
 }
 
