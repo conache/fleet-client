@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { pathOr } from 'rambda';
 import FileInput from '../shared/FileInput';
-import FileUploader from '../../services/FileUploader';
+import FileUploadService from '../../services/FileUploadService';
 
 class Upload extends Component {
     render() {
@@ -14,8 +14,7 @@ class Upload extends Component {
     }
 
     handleFileSubmit(file) {
-        FileUploader.uploadFile(file);
-        // fileUploader.testDispatch();
+        FileUploadService.startFileUpload(file);
     }
 }
 
