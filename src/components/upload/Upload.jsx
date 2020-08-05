@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { pathOr } from 'rambda';
+
 import FileInput from '../shared/FileInput';
-import FileUploadService from '../../services/FileUploadService';
+import FileUploadService from '../../services/file-upload-service/FileUploadService';
 
 class Upload extends Component {
     render() {
