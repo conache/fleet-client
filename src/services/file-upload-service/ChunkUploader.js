@@ -10,26 +10,35 @@ export default class ChunkUploader {
     static states = {
         RUNNING: "running",
         PAUSED: "paused",
-        UPLOADING: "uploading",    
     };
 
-    constructor(chunksQueue) {
+    constructor(chunksQueue, index) {
+        this._index = index;
         this._chunksQueue = chunksQueue;
         this._status = navigator.onLine ? ChunkUploader.states.RUNNING : ChunkUploader.states.PAUSED;
         this._uploadRetriesCount = 5;
+        this._currentProcessingChunk = null;
         this._eventTarget = new EventTarget();
 
-        setTimeout(() => {
+        
+        queueMicrotask(() => {
             this._initListeners();
+
             this._run();
-        }, 0);
+        });
+    }
+
+    _init() {
+        this._initListeners();
+        // the uploader can be already paused if the internet is not working
+        this._onPauseFinish(() => this._run());
     }
 
     _initListeners() {
         const handleConnectionStatusUpdate = () => {
             this._status = navigator.onLine ? ChunkUploader.states.RUNNING : ChunkUploader.states.PAUSED;
             if (this._status !== ChunkUploader.states.PAUSED) {
-                this._eventTarget.dispatchEvent(ChunkUploader.events.PAUSE_FINISH);
+                this._eventTarget.dispatchEvent(new Event(ChunkUploader.events.PAUSE_FINISH));
             }
         }
 
@@ -38,21 +47,25 @@ export default class ChunkUploader {
     }
 
     _run() {
-        console.log("Run chunk uploader");
         this._chunksQueue.onValueAvailable(async () => {
-            debugger;
-            if (this._status !== ChunkUploader.states.RUNNING) {
+             if (this._currentProcessingChunk) {
                 return;
             }
 
-            const chunk = this._chunksQueue.dequeue();
-            if (chunk) {
-
-                this._status = ChunkUploader.states.UPLOADING;
-                await this._uploadChunk(chunk);
-                this._status = ChunkUploader.states.RUNNING;
+            this._currentProcessingChunk = this._chunksQueue.dequeue();            
+            // the dequeue could return an undefined value
+            if (this._currentProcessingChunk) {
+                try {
+                    await this._uploadChunk(this._currentProcessingChunk);
+                    this._currentProcessingChunk = null;
+                } catch(err) {
+                    // TODO: solve this case
+                    console.log("Chunk unprocessed:", err);
+                    console.log("Should send info to server to force stop the current upload");
+                }
             }
-            this._run();
+            // we need to queue this task in order to prevent the browser entering an infinite recusive call
+            queueMicrotask(() => this._run());
         });
     }
 
@@ -62,17 +75,18 @@ export default class ChunkUploader {
             const sendChunkToServer = (remainingRetries = this._uploadRetriesCount) => {
                 if (remainingRetries === 0) {
                     reject("Chunk upload fail");
+                    return;
                 }
                 
                 if (this._status === ChunkUploader.states.PAUSED) {
                     this._onPauseFinish(() => sendChunkToServer(remainingRetries));
+                    return;
                 }
     
                 UploadsAPI.sendFileChunk(formattedChunk).then(res => {
-                    console.log("Successfully uploaded chunk:", formattedChunk);
+                    console.log(this._index, " - Successfully uploaded chunk:", formattedChunk);
                     resolve();
                 }, err => {
-                    console.log("Chunk upload error");
                     sendChunkToServer(--remainingRetries);
                 });
             }
@@ -92,6 +106,11 @@ export default class ChunkUploader {
     }
 
     _onPauseFinish(callback) {
-        this._eventTarget.on(ChunkUploader.events.PAUSE_FINISH, callback);
+        if (this._status !== ChunkUploader.states.PAUSED) {
+            callback();
+            return;
+        }
+
+        this._eventTarget.addEventListener(ChunkUploader.events.PAUSE_FINISH, callback);
     }
 }

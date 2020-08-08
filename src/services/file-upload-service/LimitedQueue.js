@@ -51,15 +51,15 @@ export default class LimitedQueue {
 
     onValueAvailable(callback) {
         if (this._elements.length > 0) {
-            callback(this.dequeue());
+            callback();
             return;
         }
 
-        this.on(LimitedQueue.events.VALUE_AVAILABLE, callback);
+        this.on(LimitedQueue.events.VALUE_AVAILABLE, callback, true);
     }
 
-    on(eventType, callback) {
-        this._eventTarget.addEventListener(eventType, callback);
+    on(eventType, callback, once=false) {
+        this._eventTarget.addEventListener(eventType, callback, {once});
     }
 
     toString() {

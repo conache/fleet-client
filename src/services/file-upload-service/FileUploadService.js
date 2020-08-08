@@ -6,10 +6,10 @@ import ChunkUploader from './ChunkUploader';
 
 class FileUploadService {
     constructor() {
-        this._chunksUploadersCount = 1;
-        this._chunkSize = 1024 // 1MB
+        this._chunksUploadersCount = 5;
+        this._chunkSize = 1000 // 1 kb 
         this._chunksQueue = new LimitedQueue(1024);
-        this._chunksUploaders = Array(this._chunksUploadersCount).fill().map(() => new ChunkUploader(this._chunksQueue));
+        this._chunksUploaders = Array(this._chunksUploadersCount).fill().map((_, index) => new ChunkUploader(this._chunksQueue, index));
     }
 
     async startFileUpload(fileObject) {
@@ -20,7 +20,6 @@ class FileUploadService {
 
     _addFileToChunksQueue(fileObject) {
         const totalChunksCount = Math.ceil(fileObject.size / this._chunkSize);        
-
         return new Promise((resolve, reject) => {
             const addChunkToQueue = (chunkIndex = 0) => {
                 if (chunkIndex === totalChunksCount) {
