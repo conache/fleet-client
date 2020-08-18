@@ -46,7 +46,7 @@ export default class LimitedQueue {
             callback();
             return;
         }
-        this.on(LimitedQueue.events.SPACE_AVAILABLE, callback);
+        this.on(LimitedQueue.events.SPACE_AVAILABLE, callback, true);
     }
 
     onValueAvailable(callback) {

@@ -22,7 +22,7 @@ export default class ChunkUploader {
 
         
         queueMicrotask(() => {
-            this._initListeners();
+            this._init();
 
             this._run();
         });
@@ -70,7 +70,6 @@ export default class ChunkUploader {
     }
 
     async _uploadChunk(chunk) {
-        const formattedChunk = await this._formatChunk(chunk);
         return new Promise((resolve, reject) => {
             const sendChunkToServer = (remainingRetries = this._uploadRetriesCount) => {
                 if (remainingRetries === 0) {
@@ -83,8 +82,7 @@ export default class ChunkUploader {
                     return;
                 }
     
-                UploadsAPI.sendFileChunk(formattedChunk).then(res => {
-                    console.log(this._index, " - Successfully uploaded chunk:", formattedChunk);
+                UploadsAPI.sendFileChunk(chunk).then(res => {
                     resolve();
                 }, err => {
                     sendChunkToServer(--remainingRetries);
@@ -93,16 +91,6 @@ export default class ChunkUploader {
 
             sendChunkToServer();
         });
-    }
-
-    async _formatChunk(chunk) {
-        const chunkBytes = new Uint8Array(await chunk.arrayBuffer())
-        return JSON.parse(JSON.stringify(chunkBytes, function (_, v) {
-            if (v instanceof Uint8Array) {
-                return Array.apply([], v);
-            }
-            return v;
-        }));
     }
 
     _onPauseFinish(callback) {

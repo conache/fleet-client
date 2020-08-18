@@ -1,9 +1,9 @@
 import {request, httpVerb } from './request'
 
-export function createUpload() {
-  return request(httpVerb.POST, 'upload/create');
+export function createUpload(fileSpecification={}) {
+  return request(httpVerb.POST, 'file-service/createFile', fileSpecification);
 }
 
-export function sendFileChunk(arr) {
-  return request(httpVerb.POST, 'upload/chunk', {chunk: arr});
+export function sendFileChunk(chunkBytes) {
+  return request(httpVerb.POST, 'file-service/createChunk', {data: chunkBytes});
 }
