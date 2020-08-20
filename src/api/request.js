@@ -24,7 +24,7 @@ export function request(method = 'GET', url, body = {}, headers = {}) {
     if (resp.data.exceptionThrown) {
       throw new Error(resp.data.message);
     }
-    return resp.data.data;
+    return resp.data;
   });
 }
 

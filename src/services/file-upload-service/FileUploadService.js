@@ -17,12 +17,12 @@ class FileUploadService {
             name: fileObject.name,
             size: fileObject.size,
             maxChunkSize: this._chunkSize,
-        }).then(() => {
-            this._addFileToChunksQueue(fileObject);
+        }).then(({file}) => {
+            this._addFileToChunksQueue(file.id, fileObject);
         });
     }
 
-    _addFileToChunksQueue(fileObject) {
+    _addFileToChunksQueue(fileId, fileObject) {
         const totalChunksCount = Math.ceil(fileObject.size / this._chunkSize);  
         return new Promise((resolve, reject) => {
             const addChunkToQueue = (chunkIndex = 0) => {
@@ -34,7 +34,13 @@ class FileUploadService {
                 this._chunksQueue.onSpaceAvailable(async () => {
                     const chunkStartIndex = chunkIndex * this._chunkSize;
                     const chunk = fileObject.slice(chunkStartIndex, chunkStartIndex + this._chunkSize);
-                    this._chunksQueue.enqueue(await this.formatChunk(chunk))
+                    const chunkDataObject = {
+                        index: chunkIndex,
+                        fileId: fileId,
+                        data: await this.formatChunk(chunk)
+                    };
+
+                    this._chunksQueue.enqueue(chunkDataObject);
                     addChunkToQueue(++chunkIndex);
                 });
             };

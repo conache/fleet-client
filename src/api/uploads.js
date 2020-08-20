@@ -4,6 +4,6 @@ export function createUpload(fileSpecification={}) {
   return request(httpVerb.POST, 'file-service/createFile', fileSpecification);
 }
 
-export function sendFileChunk(chunkBytes) {
-  return request(httpVerb.POST, 'file-service/createChunk', {data: chunkBytes});
+export function sendFileChunk(body={}) {
+  return request(httpVerb.POST, 'file-service/createChunk', body);
 }
