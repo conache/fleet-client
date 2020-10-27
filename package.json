@@ -23,6 +23,7 @@
     "seamless-immutable": "^7.1.4"
   },
   "scripts": {
+    "start:pord": "REACT_APP_ENV=prod react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
