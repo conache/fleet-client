@@ -25,12 +25,11 @@ class SocketService {
   // }
 
   connectToServer() {
-    this.socket = io(__BASE_SOCKET_SERVER_URL__)
+    this.socket = io.connect(__BASE_SOCKET_SERVER_URL__, {"transports": ['websocket']})
 
-    this.socket.on('msg', (msg) => {
-      console.log("[Socket][Server]:", msg);
-      this.socket.emit("initialized", "Hey! I'm initialized!")
-    })
+    this.socket.on("connect", () => {
+      console.log("Successfully connected to wss");
+    });
     this.socket.on('disconnect', () => {
       console.log("Socket disconnected!!!");
     });

@@ -9,7 +9,8 @@ import SocketService from "../../services/socket-service/SocketService";
 class Upload extends Component {
     constructor() {
         super();
-        SocketService.connectToServer()
+        SocketService.connectToServer();
+        SocketService.onNotification((message) => console.log("Received notification:", message))
     }
 
     render() {
