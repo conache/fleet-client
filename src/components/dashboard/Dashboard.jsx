@@ -1,7 +1,13 @@
 import React from 'react';
+import {Route, Switch} from "react-router-dom";
+import Upload from "../upload/Upload";
 
 const Dashboard = (props) => {
-  return <div> Here should be the dashboard page</div>
+  const {match} = props;
+
+  return <Switch>
+    <Route exact path={`${match.path}`} component={Upload} />
+  </Switch>
 }
 
 export default Dashboard;

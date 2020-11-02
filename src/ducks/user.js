@@ -1,36 +1,29 @@
-// import { createAction } from 'redux-actions';
+import { createAction } from 'redux-actions';
 import Immutable from 'seamless-immutable';
-// import * as User from '../api/user';
-// import { setAuthToken } from '../session';
+import * as UserApiService from '../api/user';
+import { setAuthToken } from '../session';
 
 export default function reducer(state = Immutable({}), action) {
   switch (action.type) {
-    case 'user/AUTHENTICATE_LOADING':
-      return state.merge({ authenticating: action.payload });
-    case 'user/AUTHENTICATE':
-      return state.merge({ isAuthenticated: action.payload });
+    case 'user/LOGIN_SUCCESS':
+      console.log("Login success matched action:", action);
+      return state.merge({ user: action.payload });
     default:
       return state;
   }
 }
 
-// export const authenticate = createAction('user/AUTHENTICATE');
-// export const loadingAuthenticate = createAction('user/AUTHENTICATE_LOADING');
+export const loginSuccess = createAction('user/LOGIN_SUCCESS');
 
-// export const login = ({ username, password }) => {
-//   return (dispatch) => {
-//     dispatch(loadingAuthenticate(true));
-//     return User.login(username, password)
-//       .then((resp) => {
-//         dispatch(loadingAuthenticate(false));
-//         dispatch(authenticate(true));
-//         setAuthToken(resp.body.token);
-//       })
-//       .catch((err) => {
-//         dispatch(loadingAuthenticate(false));
-//         NotificationManager.error(
-//           `Could not load question. Please refresh the page. Error: ${err.message}`,
-//         );
-//       });
-//   };
-// };
+export const login = (userLoginDetails) => {
+  return (dispatch) => {
+    return UserApiService.login(userLoginDetails)
+      .then((resp) => {
+        dispatch(loginSuccess(resp.user));
+        setAuthToken(resp.token.token);
+      })
+      .catch((err) => {
+        console.log("Error encountered on login:", err)
+      });
+  };
+};

@@ -30,7 +30,7 @@ class Application extends Component {
             hasPermission={!userIsAuthenticated}
             redirectTo="/"
           />
-          <PrivateRoute exact path="/"
+          <PrivateRoute path="/"
             component={Dashboard}
             hasPermission={userIsAuthenticated}
           />
