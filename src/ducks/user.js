@@ -6,8 +6,7 @@ import { setAuthToken } from '../session';
 export default function reducer(state = Immutable({}), action) {
   switch (action.type) {
     case 'user/LOGIN_SUCCESS':
-      console.log("Login success matched action:", action);
-      return state.merge({ user: action.payload });
+      return state.merge(action.payload);
     default:
       return state;
   }
@@ -19,8 +18,8 @@ export const login = (userLoginDetails) => {
   return (dispatch) => {
     return UserApiService.login(userLoginDetails)
       .then((resp) => {
-        dispatch(loginSuccess(resp.user));
         setAuthToken(resp.token.token);
+        dispatch(loginSuccess(resp.user));
       })
       .catch((err) => {
         console.log("Error encountered on login:", err)

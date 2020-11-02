@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import '../style/Application.scss';
-import { connect } from 'react-redux';
 import { isAuthenticated } from "../session";
 import LoginForm from './authentication/LoginForm';
 import SignUpForm from './authentication/SignUpForm';
@@ -40,4 +39,4 @@ class Application extends Component {
   }
 }
 
-export default connect(null, null)(Application);
+export default Application;
