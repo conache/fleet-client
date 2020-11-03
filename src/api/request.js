@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { mergeDeepLeft } from 'ramda';
 import { __BASE_API_URL__ } from '../environment';
+import { getAuthToken, isAuthenticated } from '../session';
 
 const defaultHeaders = {
   Accept: 'application/json',
@@ -14,6 +15,13 @@ function createFullUrl(url) {
 }
 
 export function request(method = 'GET', url, body = {}, headers = {}) {
+  if (isAuthenticated()) {
+    headers = {
+      ...headers,
+      "Authorization": `Bearer ${getAuthToken()}`,
+    }
+  }
+
   return axios({
     method,
     url: createFullUrl(url),

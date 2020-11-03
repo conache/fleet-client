@@ -5,7 +5,9 @@ import { setAuthToken } from '../session';
 
 export default function reducer(state = Immutable({}), action) {
   switch (action.type) {
+    case 'user/GET_PROFILE_SUCCESS':
     case 'user/LOGIN_SUCCESS':
+      console.log("Action payload:", action.payload);
       return state.merge(action.payload);
     default:
       return state;
@@ -13,6 +15,7 @@ export default function reducer(state = Immutable({}), action) {
 }
 
 export const loginSuccess = createAction('user/LOGIN_SUCCESS');
+export const getProfileSuccess = createAction('user/GET_PROFILE_SUCCESS');
 
 export const login = (userLoginDetails) => {
   return (dispatch) => {
@@ -26,3 +29,16 @@ export const login = (userLoginDetails) => {
       });
   };
 };
+
+export const getProfile = () => {
+  return (dispatch) => {
+    console.log("Into get profile");
+    return UserApiService.getProfile()
+      .then((resp) => {
+        dispatch(getProfileSuccess(resp.user))
+      })
+      .catch((err) => {
+        console.log("Error encountered when retrieving profile:", err);
+      });
+  }
+}

@@ -7,10 +7,12 @@ import SignUpForm from './authentication/SignUpForm';
 import Dashboard from "./dashboard/Dashboard";
 import PrivateRoute from './common/PrivateRoute';
 import LandingPage from './landing/LandingPage';
+import { UserContext } from '../context/user';
 
 
 class Application extends Component {
   render() {
+    const {user} = this.props;
     const userIsAuthenticated = isAuthenticated();
 
     return (
@@ -29,10 +31,12 @@ class Application extends Component {
             hasPermission={!userIsAuthenticated}
             redirectTo="/"
           />
-          <PrivateRoute path="/"
-            component={Dashboard}
-            hasPermission={userIsAuthenticated}
-          />
+          <UserContext.Provider value={user}>
+            <PrivateRoute path="/"
+              component={Dashboard}
+              hasPermission={userIsAuthenticated}
+            />
+          </UserContext.Provider>
         </Switch>
       </Router>
     );
