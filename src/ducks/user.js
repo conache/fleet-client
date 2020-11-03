@@ -7,8 +7,8 @@ export default function reducer(state = Immutable({}), action) {
   switch (action.type) {
     case 'user/GET_PROFILE_SUCCESS':
     case 'user/LOGIN_SUCCESS':
-      console.log("Action payload:", action.payload);
       return state.merge(action.payload);
+    case 'user/SIGNUP_SUCCESS':
     default:
       return state;
   }
@@ -16,10 +16,11 @@ export default function reducer(state = Immutable({}), action) {
 
 export const loginSuccess = createAction('user/LOGIN_SUCCESS');
 export const getProfileSuccess = createAction('user/GET_PROFILE_SUCCESS');
+export const signUpSuccess = createAction('user/SIGNUP_SUCCESS');
 
-export const login = (userLoginDetails) => {
+export const login = (userDetails) => {
   return (dispatch) => {
-    return UserApiService.login(userLoginDetails)
+    return UserApiService.login(userDetails)
       .then((resp) => {
         setAuthToken(resp.token.token);
         dispatch(loginSuccess(resp.user));
@@ -32,7 +33,6 @@ export const login = (userLoginDetails) => {
 
 export const getProfile = () => {
   return (dispatch) => {
-    console.log("Into get profile");
     return UserApiService.getProfile()
       .then((resp) => {
         dispatch(getProfileSuccess(resp.user))
@@ -40,5 +40,17 @@ export const getProfile = () => {
       .catch((err) => {
         console.log("Error encountered when retrieving profile:", err);
       });
+  }
+}
+
+export const signUp = (userDetails) => {
+  return (dispatch) => {
+    return UserApiService.signUp(userDetails)
+      .then(() => {
+        dispatch(signUpSuccess())
+      })
+      .catch((err) => {
+        console.log("Error encountered when signing up:", err);
+      })
   }
 }
