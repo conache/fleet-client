@@ -1,5 +1,6 @@
 import * as io from 'socket.io-client';
 import {__BASE_SOCKET_SERVER_URL__} from "../../environment";
+import { getAuthToken } from '../../session';
 
 class SocketService {
   socket = null;
@@ -25,7 +26,7 @@ class SocketService {
   // }
 
   connectToServer() {
-    this.socket = io.connect(__BASE_SOCKET_SERVER_URL__, {"transports": ['websocket']})
+    this.socket = io.connect(__BASE_SOCKET_SERVER_URL__, {"transports": ['websocket'], query: {token: getAuthToken()}})
 
     this.socket.on("connect", () => {
       console.log("Successfully connected to wss");
@@ -40,7 +41,7 @@ class SocketService {
       return;
     }
     
-    this.socket.on("notification", (data) => callback(data));
+    this.socket.on("message", (data) => callback(data));
   }
 
   disconnect() {

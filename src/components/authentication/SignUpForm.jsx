@@ -2,30 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Paper, TextField, Grid, Button } from '@material-ui/core';
-import { signUp } from "../../ducks/user";
+import { signUp } from "../../reducers/user.reducer";
 import { Formik, Form } from 'formik';
 
 class SignUpForm extends React.Component {
-  constructor(...args) {
-    super(...args);
-
-    this.state = {
-      signupCompleted: false,
-    };
-  }
-
-  componentDidUpdate() {
-    if (this.state.signupCompleted) {
-      this.props.history.push("/login");
-    }
-  }
-
   render() {
-
     return <Grid container direction="column" justify="center" alignItems="center"
       style={{ marginTop: '15%' }}>
       <Paper elevation={3}>
-        <Formik initialValues={{ name: "", company: "", email: "", password: "" }} onSubmit={(values) => this.handleSignUpSubmit(values)} >
+        <Formik initialValues={{ name: "", company: "", email: "", password: "" }} onSubmit={this.props.signUp} >
           {props => {
             const { handleChange } = props;
             return <Form>
@@ -40,14 +25,6 @@ class SignUpForm extends React.Component {
         </Formik>
       </Paper>
     </Grid>
-  }
-
-  handleSignUpSubmit(userData) {
-    const {signUp} = this.props;
-
-    signUp(userData).then(() => {
-      this.setState({signupCompleted: true});
-    });
   }
 }
 

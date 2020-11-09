@@ -2,7 +2,7 @@ import React from "react";
 import Application from './Application';
 import {connect} from 'react-redux';
 import { isAuthenticated } from "../session";
-import {getProfile} from "../ducks/user";
+import {getProfile} from "../reducers/user.reducer";
 import { bindActionCreators } from "redux";
 
 

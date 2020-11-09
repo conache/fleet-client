@@ -2,18 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Paper, TextField, Grid, Button } from '@material-ui/core';
-import { login } from "../../ducks/user";
-import { pathOr } from 'rambda';
+import {login} from "../../reducers/user.reducer";
 import { Formik, Form } from 'formik';
 
 class LoginForm extends React.Component {
-  componentDidUpdate() {
-    const {user, history} = this.props;
-    if (user?.id) {
-      history.push("");
-    }
-  }
-
   render() {
     const {login} = this.props;
 
@@ -38,14 +30,9 @@ class LoginForm extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    user: pathOr(null, ['user'], state),
-  };
-}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ login }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(null, mapDispatchToProps)(LoginForm);

@@ -10,4 +10,8 @@ export const setAuthToken = (token) => {
   }
 };
 
+export const removeAuthToken = () => {
+  localStorage.removeItem("token");
+}
+
 export const isAuthenticated = () => !!localStorage.getItem('token');

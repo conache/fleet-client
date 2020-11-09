@@ -10,7 +10,7 @@ class Upload extends Component {
     constructor() {
         super();
         SocketService.connectToServer();
-        SocketService.onNotification((message) => console.log("Received notification:", message))
+        SocketService.onNotification((message) => console.log("Received message:", message))
     }
 
     render() {

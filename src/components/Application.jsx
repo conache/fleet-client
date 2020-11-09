@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import {Router, Switch } from 'react-router-dom';
 import '../style/Application.scss';
 import { isAuthenticated } from "../session";
 import LoginForm from './authentication/LoginForm';
@@ -8,23 +8,26 @@ import Dashboard from "./dashboard/Dashboard";
 import PrivateRoute from './common/PrivateRoute';
 import LandingPage from './landing/LandingPage';
 import { UserContext } from '../context/user';
+import history from "../history";
 
 
 class Application extends Component {
   render() {
     const {user} = this.props;
     const userIsAuthenticated = isAuthenticated();
-
+    console.log("User is authenticated:", userIsAuthenticated);
     return (
-      <Router>
+      <Router history={history}>
         <Switch>
           <PrivateRoute exact path="/login"
             component={LoginForm} 
             hasPermission={!userIsAuthenticated}
+            redirectTo="/"
           />
           <PrivateRoute exact path="/signup"
             component={SignUpForm}
             hasPermission={!userIsAuthenticated}
+            redirectTo="/"
           />
           <PrivateRoute exact path="/landing"
             component={LandingPage}

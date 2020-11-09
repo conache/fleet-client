@@ -1,20 +1,19 @@
-import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
-import Immutable from 'seamless-immutable';
+import {createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga'
+// import Immutable from 'seamless-immutable';
 
-import app from './ducks/app';
-import user from './ducks/user';
-import uploads from './ducks/uploads';
+import rootSaga from "./sagas"
 
-const initialState = Immutable({
-  app: {},
-  user: {}
-});
+import rootReducer from "./reducers"
 
-// A Middleware got logging
+// const initialState = Immutable({
+//   app: {},
+//   authentication: {}
+// });
+
+// Middlewares
 const logger = (store) => (next) => (action) => {
   const result = next(action);
-
   console.groupCollapsed('[ACTION]', action.type);
   console.log('Payload:', action.payload);
   console.log('State:', store.getState());
@@ -23,25 +22,20 @@ const logger = (store) => (next) => (action) => {
   return result;
 };
 
-// Here goes all reducers
-const reducer = combineReducers(
-  Object.assign(
-    {},
-    {
-      app,
-      user,
-      uploads,
-    },
-  ),
-);
+const sagaMiddleware = createSagaMiddleware()
 
-const middlewares = [thunk];
-middlewares.push(logger);
+const middlewares = [logger, sagaMiddleware];
 
-let finalCreateStore = compose(applyMiddleware(...middlewares));
+// Create the application's stores level
+// const store = createStore(reducer, initialState);
 
-finalCreateStore = finalCreateStore(createStore);
+// Run the saga middleware
+// sagaMiddleware.run(rootSaga)
 
-const store = finalCreateStore(reducer, initialState);
+// export default store;
+
+const store = createStore(rootReducer, applyMiddleware(...middlewares));
+
+sagaMiddleware.run(rootSaga)
 
 export default store;

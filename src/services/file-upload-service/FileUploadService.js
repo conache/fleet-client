@@ -1,6 +1,4 @@
-import {updateProgress} from '../../ducks/uploads'
 import * as UploadsAPI from '../../api/uploads'
-import store from '../../store'
 import LimitedQueue from "./LimitedQueue"
 import ChunkUploader from './ChunkUploader';
 
@@ -52,10 +50,6 @@ class FileUploadService {
 
     async formatChunk(chunk) {
         return Array.from(new Uint8Array(await chunk.arrayBuffer()))
-    }
-
-    testDispatch() {
-        store.dispatch(updateProgress(12));
     }
 }
 
