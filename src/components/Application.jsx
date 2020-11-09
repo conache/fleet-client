@@ -15,7 +15,7 @@ class Application extends Component {
   render() {
     const {user} = this.props;
     const userIsAuthenticated = isAuthenticated();
-    console.log("User is authenticated:", userIsAuthenticated);
+
     return (
       <Router history={history}>
         <Switch>
