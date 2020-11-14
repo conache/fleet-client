@@ -1,5 +1,6 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import { actionTypes, getProfileSuccess, loginSuccess, logoutSuccess, signUpSuccess } from "../actions/user.actions";
+import wssConnector from "../services/wss-subscriber/WssConnector";
 import * as UserApiService from "../api/user";
 import {setAuthToken, removeAuthToken} from "../session";
 import history from "../history";
@@ -19,6 +20,7 @@ function* signUpUser(action) {
   try {
     yield call(() => UserApiService.signUp(action.payload))
     yield put(signUpSuccess())
+  
     history.push("/login")
   } catch (err) {
     console.log("Error encountered on signUp", err)
@@ -29,6 +31,7 @@ function* getUserProfile(action) {
   try {
     const response = yield call(() => UserApiService.getProfile())
     yield put(getProfileSuccess(response.user))
+    wssConnector.connect()
   } catch (err) {
     console.log("Error encountered while retrieving user profile", err)
   }
@@ -37,6 +40,7 @@ function* getUserProfile(action) {
 function* logoutUser(action) {
   yield removeAuthToken()
   yield put(logoutSuccess())
+  wssConnector.disconnect()
   window.location.href = "/"
 }
 

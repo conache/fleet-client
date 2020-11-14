@@ -4,17 +4,9 @@ import { pathOr } from 'rambda';
 import { bindActionCreators } from 'redux';
 
 import FileInput from '../shared/FileInput';
-import FileUploadService from '../../services/file-upload-service/FileUploadService';
-import SocketService from "../../services/socket-service/SocketService";
 import {createTestRun} from "../../reducers/testRun.reducer";
 
 class Upload extends Component {
-    constructor() {
-        super();
-        SocketService.connectToServer();
-        SocketService.onNotification((message) => console.log("Received message:", message))
-    }
-
     render() {
         const { progress } = this.props;
         return <div>
