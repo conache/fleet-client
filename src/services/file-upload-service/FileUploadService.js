@@ -1,4 +1,3 @@
-import * as UploadsAPI from '../../api/uploads'
 import LimitedQueue from "./LimitedQueue"
 import ChunkUploader from './ChunkUploader';
 
@@ -10,9 +9,8 @@ class FileUploadService {
         this._chunksUploaders = Array(this._chunksUploadersCount).fill().map((_, index) => new ChunkUploader(this._chunksQueue, index));
     }
 
-    async startFileUpload(fileObject) {
-        // TODO: FIX THIS FLOW - it is hardcoded just for testing purposes
-        this._addFileToChunksQueue(fileObject.id, fileObject);
+    async startFileUpload(fileId, jsFileObject) {
+        this._addFileToChunksQueue(fileId, jsFileObject);
     }
 
     _addFileToChunksQueue(fileId, fileObject) {
