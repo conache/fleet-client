@@ -6,11 +6,6 @@ import rootSaga from "./sagas"
 
 import rootReducer from "./reducers"
 
-// const initialState = Immutable({
-//   app: {},
-//   authentication: {}
-// });
-
 // Middlewares
 const logger = (store) => (next) => (action) => {
   const result = next(action);
@@ -25,14 +20,6 @@ const logger = (store) => (next) => (action) => {
 const sagaMiddleware = createSagaMiddleware()
 
 const middlewares = [logger, sagaMiddleware];
-
-// Create the application's stores level
-// const store = createStore(reducer, initialState);
-
-// Run the saga middleware
-// sagaMiddleware.run(rootSaga)
-
-// export default store;
 
 const store = createStore(rootReducer, applyMiddleware(...middlewares));
 

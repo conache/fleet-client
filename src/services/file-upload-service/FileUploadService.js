@@ -11,13 +11,8 @@ class FileUploadService {
     }
 
     async startFileUpload(fileObject) {
-        UploadsAPI.createUpload({
-            name: fileObject.name,
-            size: fileObject.size,
-            maxChunkSize: this._chunkSize,
-        }).then(({file}) => {
-            this._addFileToChunksQueue(file.id, fileObject);
-        });
+        // TODO: FIX THIS FLOW - it is hardcoded just for testing purposes
+        this._addFileToChunksQueue(fileObject.id, fileObject);
     }
 
     _addFileToChunksQueue(fileId, fileObject) {
