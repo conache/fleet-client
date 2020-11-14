@@ -4,7 +4,7 @@ import { pathOr } from 'rambda';
 import { bindActionCreators } from 'redux';
 
 import FileInput from '../shared/FileInput';
-import {createTestRun} from "../../reducers/testRun.reducer";
+import {createTestRun} from "../../reducers/testRuns.reducer";
 
 class Upload extends Component {
     render() {
@@ -25,7 +25,8 @@ class Upload extends Component {
                 name: file.name,
                 size: file.size,
                 maxChunkSize: 1000 * 1000 * 1 // 1 mb
-            }
+            },
+            file
         )
     }
 }
