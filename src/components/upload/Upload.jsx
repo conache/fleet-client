@@ -16,7 +16,6 @@ class Upload extends Component {
     }
 
     handleFileSubmit(file) {
-        debugger;
         this.props.createTestRun(
             {
                 name: "Test run name"
