@@ -7,8 +7,9 @@ const getFiles = state => state.files;
 
 function* handleFileEntityCreation(action) {
   try {
-    const {testRunId, fileSpec} = action.payload
-    yield put(fileActions.updateFileByTestRunId({testRunId: testRunId, updateData: fileSpec}))
+    const {testRunId, stateMetadata} = action.payload
+    console.log("Test run id:", testRunId, " - FileSpec", stateMetadata)
+    yield put(fileActions.updateFileByTestRunId({testRunId: testRunId, updateData: JSON.parse(stateMetadata)}))
     const files = yield select(getFiles)
     const updatedFile = files.find(file => file.testRunId === testRunId);
     console.log("Updated file:", updatedFile)

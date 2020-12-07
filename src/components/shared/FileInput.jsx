@@ -13,7 +13,7 @@ const FileInput = (props) => {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <input type="file" name="file" id="file"  accept=".zip"
+      <input type="file" name="file" id="file"
         onChange={(event) => {
           formik.setFieldValue('file', event.currentTarget.files[0]);
         }}
