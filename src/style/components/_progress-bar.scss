@@ -84,6 +84,7 @@
     height: 2px;
     width: 100%;
     background-color: $inactive-border-color;
+    animation: loaded .4s ease-in-out 0s;
   }
 }
 
@@ -105,6 +106,16 @@
   99% {
     width: 0px;
     left: 100%;
+  }
+}
+
+@keyframes loaded {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
   }
 }
 

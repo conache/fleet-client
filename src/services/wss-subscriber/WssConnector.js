@@ -16,19 +16,13 @@ class WssConnector {
 
     this.socket.on("connect", () => {
       console.log("Successfully connected to wss");
-      this.onMessage((msg) => this.streamHandler.handleMessage(msg))
     });
     this.socket.on('disconnect', () => {
       console.log("Socket disconnected!!!");
     });
-  }
-
-  onMessage(callback=() => {}) {
-    if (!this.socket) {
-      return;
-    }
-
-    this.socket.on("message", (msg) => callback(this.getParsedMessage(msg)));
+    this.socket.on("message", (msg) => {
+      this.streamHandler.handleMessage(this.getParsedMessage(msg))
+    });
   }
 
   getParsedMessage(message="") {

@@ -1,11 +1,34 @@
 import React from 'react'
-import { RUN_STATES } from '../../constants'
-import ProgressBar from "../test-run/ProgressBar"
+import { pathOr } from 'ramda'
+import { bindActionCreators } from 'redux';
+import {connect} from "react-redux"
+import {listTestRuns} from "../../reducers/testRuns.reducer";
+import Upload from "../upload/Upload";
+import TestRunCard from '../test-run/TestRunCard';
 
-export default class AllRunsPage extends React.Component {
+class AllRunsPage extends React.Component {
+  componentDidMount() {
+    this.props.listTestRuns();
+  }
+
   render() {
+    const {testRuns} = this.props;
+    
     return [
-      <ProgressBar className="progress-bar" currentState={RUN_STATES.ERROR} lastValidState={RUN_STATES.EVALUATIONG}/>
+      testRuns.map(testRun => <TestRunCard testRun={testRun}/>),
+      <Upload />,
     ]
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    testRuns: pathOr([], ["testRuns"], state)
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({listTestRuns}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllRunsPage)

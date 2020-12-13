@@ -1,9 +1,12 @@
 import store from "../../store"
-import {fileEntityCreated} from "../../actions/wssMessages.actions";
+import {fileEntityCreated, testRunStateChange} from "../../actions/wssMessages.actions";
+import { RUN_STATES } from "../../constants";
+import { decodeTestRunStateMetadata } from "../../utils.js";
 
 export default class WssStreamHandler {
   handleMessage(msg={}) {
     const {type, data} = msg;
+    console.log("[WSS] Message received:", msg);
     switch (type) {
       case "wss.test_run_state_changed":
         this.handleTestRunStateChange(data)
@@ -14,12 +17,15 @@ export default class WssStreamHandler {
   }
 
   handleTestRunStateChange(data) {
+    const {state, stateMetadata} = data;
+    data.stateMetadata = decodeTestRunStateMetadata(stateMetadata)
+
     switch (data.state) {
-      case "file_upload":
+      case RUN_STATES.FILE_UPLOAD:
         store.dispatch(fileEntityCreated(data))
         break
       default:
-        console.warn("State change not handled:", data)
+        store.dispatch(testRunStateChange(data))
     }
   }
 }
