@@ -3,6 +3,7 @@ import { actionTypes } from "../actions/wssMessages.actions";
 import fileActions from "../actions/files.actions";
 import testRunActions from "../actions/testRuns.actions";
 import fileUploadService from "../services/file-upload-service/FileUploadService";
+import { RUN_STATES } from "../constants";
 
 const getFiles = state => state.files;
 
@@ -13,7 +14,7 @@ function* handleFileEntityCreation(action) {
     yield put(fileActions.updateFileByTestRunId({testRunId: testRunId, updateData: stateMetadata}))
     const files = yield select(getFiles)
     const updatedFile = files.find(file => file.testRunId === testRunId);
-    console.log("Updated file:", updatedFile)
+    yield put(testRunActions.updateTestRunState({testRunId: updatedFile.testRunId, state: RUN_STATES.FILE_UPLOAD}))
     fileUploadService.startFileUpload(updatedFile.id, updatedFile.jsObject)
   } catch (err) {
     console.log("Test run create error:", err)

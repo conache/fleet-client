@@ -16,6 +16,22 @@ export default function reducer(state = Immutable([]), action) {
           ...action.payload.updateData
         }
       })
+    case actionTypes.FILE_GET_SUCCESS:
+      const existentFile = state.find(file => file.id === action.payload.id)
+      if (!existentFile) {
+        return state.concat([action.payload]);
+      }
+
+      return state.map((file) => {
+        if (file.id !== action.payload.id) {
+          return file;
+        }
+
+        return {
+          ...existentFile,
+          ...action.payload
+        };
+      });
     default:
       return state;
   }
