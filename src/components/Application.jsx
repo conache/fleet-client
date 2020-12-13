@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {Router, Switch } from 'react-router-dom';
-import '../style/Application.scss';
+import '../index.scss';
 import { isAuthenticated } from "../session";
 import LoginForm from './authentication/LoginForm';
 import SignUpForm from './authentication/SignUpForm';
-import Dashboard from "./dashboard/Dashboard";
+import Dashboard from "./Dashboard";
 import PrivateRoute from './common/PrivateRoute';
 import LandingPage from './landing/LandingPage';
 import { UserContext } from '../context/user';

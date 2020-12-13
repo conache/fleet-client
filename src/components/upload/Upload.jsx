@@ -12,6 +12,7 @@ class Upload extends Component {
         return <div>
             <div>{progress}</div>
             <FileInput onSubmit={(file) => this.handleFileSubmit(file)} />
+            <a href="https://storage.googleapis.com/fleet-runs/1/bus_1607632981.bin" download>download</a>
         </div>
     }
 

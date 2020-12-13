@@ -1,0 +1,123 @@
+.progress-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+}
+
+.progress-dot {
+  height: 28px;
+  width: 28px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+  &.success {
+    background-color: $success-color;
+  }
+
+  &.inactive {
+    border: 3px solid $inactive-border-color;
+    background: #ffffff;
+  }
+
+  &.error {
+    background-color: $error-color;
+  }
+
+  &.loading {
+    background-color: $inactive-background-color-secondary;
+    border-top: 16px solid $inactive-border-color;
+    animation: spin 2s linear infinite;
+  }
+
+  .icon {
+    color: #ffffff;
+    width: 80%;
+    height: 80%;
+  }
+}
+
+.progress-dot-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .progress-dot-label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    font-size: 14px;
+    width: 130px;
+    text-align: center;
+    color: $font-color-secondary;
+
+    &.pulsating {
+      animation: pulse 1.5s ease-out 0s infinite;
+    }
+  }
+}
+
+.line-separator {
+  position: relative;
+  width: 100px;
+  height: 2px;
+  margin-left: -2px;
+  background-color: $inactive-background-color-primary;
+
+  &.loading::after {
+    position: absolute;
+    content: "";
+    height: 2px;
+    background-color: $inactive-border-color;
+    animation: loader 1.5s ease-out 0s infinite;
+  }
+
+  &.success::after {
+    position: absolute;
+    content: "";
+    height: 2px;
+    width: 100%;
+    background-color: $inactive-border-color;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes loader {
+  0% {
+    width: 20px;
+    left: -10px;
+  }
+
+  50% {
+    width: 50px;
+  }
+
+  99% {
+    width: 0px;
+    left: 100%;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 20%;
+  }
+
+  50% {
+    opacity: 100%;
+  }
+
+  100% {
+    opacity: 20%;
+  }
+}
