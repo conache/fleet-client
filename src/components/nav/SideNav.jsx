@@ -21,7 +21,7 @@ class SideNav extends React.Component {
       </div>
       <div className="side-nav-container logout">
         <div className="logout-btn" onClick={() => logout()}>
-            <PowerSettingsNewIcon fontSize="larger" color="primary" />
+            <PowerSettingsNewIcon color="primary" />
             <div>logout</div>
         </div>
       </div>

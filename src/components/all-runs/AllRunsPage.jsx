@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import {listTestRuns} from "../../reducers/testRuns.reducer";
 import Upload from "../upload/Upload";
 import TestRunCard from '../test-run/TestRunCard';
+import Immutable from 'seamless-immutable';
 
 class AllRunsPage extends React.Component {
   componentDidMount() {
@@ -23,7 +24,9 @@ class AllRunsPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    testRuns: pathOr([], ["testRuns"], state)
+    testRuns: Immutable.asMutable(pathOr([], ["testRuns"], state)).sort((a, b) => {
+      return new Date(b.CreatedAt) - new Date(a.CreatedAt);
+    })
   }
 }
 
