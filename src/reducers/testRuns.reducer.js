@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable';
 import {actionTypes, initiateCreate, inititateGet, inititateList} from "../actions/testRuns.actions"
+import { RUN_STATES } from '../constants';
 
 export default function reducer(state = Immutable([]), action) {
   switch (action.type) {
@@ -9,13 +10,21 @@ export default function reducer(state = Immutable([]), action) {
       return Immutable(action.payload)
     case actionTypes.TEST_RUN_UPDATE_STATE:
       return state.map((testRun) => {
+        if (!action.payload.state) {
+          return testRun;
+        }
+
         if (testRun.id !== action.payload.testRunId) {
           return testRun;
         }
         
+        if (Object.values(RUN_STATES).indexOf(testRun.state) > Object.values(RUN_STATES).indexOf(action.payload.state)) {
+          return testRun;
+        }
+
         return {
           ...testRun,
-          ...action.payload
+          state: action.payload.state
         }
       })
     case actionTypes.TEST_RUN_GET_SUCCESS:

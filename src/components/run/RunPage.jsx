@@ -3,7 +3,7 @@ import {pathOr} from 'rambda';
 import { bindActionCreators } from 'redux';
 import {connect} from "react-redux"
 import { getTestRun } from '../../reducers/testRuns.reducer';
-import { test } from 'ramda';
+
 
 class RunPage extends React.Component {
   componentDidMount() {
@@ -11,7 +11,7 @@ class RunPage extends React.Component {
   }
 
   render() {
-    const {runId, testRun, file} = this.props;
+    const {testRun, file} = this.props;
     if (!testRun) {
       return <div>loading</div>
     }
@@ -30,7 +30,7 @@ class RunPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const {runId} = ownProps;
-  const testRun = pathOr([], ["testRuns"], state).find(testRun => testRun.id == parseInt(runId));
+  const testRun = pathOr([], ["testRuns"], state).find(testRun => testRun.id === parseInt(runId));
   return {
     testRun: testRun,
     file: pathOr([], ["files"], state).find(file => file.id === testRun.fileId)

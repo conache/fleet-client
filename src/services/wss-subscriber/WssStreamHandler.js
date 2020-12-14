@@ -20,7 +20,7 @@ export default class WssStreamHandler {
     const {state, stateMetadata} = data;
     data.stateMetadata = decodeTestRunStateMetadata(stateMetadata)
 
-    switch (data.state) {
+    switch (state) {
       case RUN_STATES.FILE_UPLOAD:
         store.dispatch(fileEntityCreated(data))
         break

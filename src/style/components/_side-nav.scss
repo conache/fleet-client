@@ -1,0 +1,67 @@
+.side-nav {
+  width: 15% !important;
+  height: 100% !important;
+  padding: 0px 24px 48px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
+}
+
+.side-nav-container {
+  &.logo {
+    font-size: 44px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 44px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    border-bottom: 2px solid $inactive-background-color-secondary;
+  };
+
+  &.user {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  &.logout {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.user-details {
+  >:first-child {
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+}
+
+.account-icon {
+  font-size: 140px !important;
+  color: $inactive-background-color-primary !important;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
+}
+
+.logout-btn {
+  display: flex;
+  flex-direction: row;
+  padding: 6px;
+  width: fit-content;
+  align-items: center;
+  cursor: pointer;
+  opacity: 1;
+  :hover {
+    opacity: 1;
+  };
+  >:last-child {
+    margin-left: 4px;
+  };
+}

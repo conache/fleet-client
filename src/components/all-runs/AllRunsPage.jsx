@@ -13,7 +13,7 @@ class AllRunsPage extends React.Component {
 
   render() {
     const {testRuns} = this.props;
-    
+
     return [
       testRuns.map(testRun => <TestRunCard testRun={testRun}/>),
       <Upload />,
