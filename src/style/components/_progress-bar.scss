@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: center;
   width: fit-content;
+  height: 120px;
 }
 
 .progress-dot {
@@ -16,7 +17,7 @@
   border-radius: 50%;
 
   &.success {
-    background-color: $success-color;
+    background-color: $primary-color;
   }
 
   &.inactive {

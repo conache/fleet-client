@@ -1,0 +1,23 @@
+.run-card-widget {
+  text-align: left;
+  color: $font-color-secondary;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+   
+  &-title-line {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-title {
+    margin-left: 4px;
+  }
+
+  &-content {
+    margin-left: 4px;
+  }
+}

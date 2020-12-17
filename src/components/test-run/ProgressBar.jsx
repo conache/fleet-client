@@ -97,7 +97,7 @@ const ProgressBar = (props) => {
       // Progress bar dot
       if (currStateIndex % 2 === 0) {
         const progressDotState = getProgressDotState(currentState, currStateIndex, validStateIndex);
-        return <ProgressBarDot state={progressDotState} label={progressDotLabel[state][progressDotState]} />
+        return <ProgressBarDot key={currStateIndex} state={progressDotState} label={progressDotLabel[state][progressDotState]} />
       }
 
       // line separator
@@ -112,7 +112,7 @@ const ProgressBar = (props) => {
           separatorState = LineSeparatorState.SUCCESS
         }
 
-        return <LineSeparator state={separatorState}/>
+        return <LineSeparator key={currStateIndex} state={separatorState}/>
       }
 
       return null;

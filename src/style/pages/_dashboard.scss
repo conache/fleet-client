@@ -5,34 +5,22 @@
   overflow: hidden;
 }
 
-.dashboard-container-content {
-  width: 85% !important;
+.dashboard-section {
   height: 100%;
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-grow: 1 !important;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-$dashboard-content-left-padding: 15%;
-$dashboard-content-right-padding: 20%;
 .dashboard-content {
-  overflow-y: auto;
-  padding-top: 64px;
-  padding-bottom: 64px;
-  padding-left: $dashboard-content-left-padding;
-  padding-right: $dashboard-content-right-padding;
-}
-
-.top-nav {
-  width: 100% !important;
-  padding-right: $dashboard-content-right-padding;
-  padding-left: calc(#{$dashboard-content-left-padding} - 2%);
-
-  .buttons-section {
-    margin-left: auto;
-  }
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1 !important;
+  padding: 48px 12px;
+  align-items: center;
 }
 
 .clickable {

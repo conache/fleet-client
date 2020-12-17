@@ -1,0 +1,20 @@
+.top-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.buttons-section {
+  margin-left: auto;
+}
+
+.top-nav-content {
+  width: 100% !important;
+}
+
+.top-nav-toolbar {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 1000px;
+  padding: 0px 12px !important;
+}

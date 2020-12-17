@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import {connect} from "react-redux"
 import {listTestRuns} from "../../reducers/testRuns.reducer";
 import Upload from "../upload/Upload";
-import TestRunCard from '../test-run/TestRunCard';
+import RunCard from '../test-run/RunCard';
 import Immutable from 'seamless-immutable';
 
 class AllRunsPage extends React.Component {
@@ -16,8 +16,10 @@ class AllRunsPage extends React.Component {
     const {testRuns} = this.props;
 
     return [
-      testRuns.map(testRun => <TestRunCard testRun={testRun}/>),
-      <Upload />,
+      <div className="runs-container">
+        {testRuns.map((testRun, index) => <RunCard key={index} testRun={testRun}/>)}
+      </div>,
+      <Upload />
     ]
   }
 }

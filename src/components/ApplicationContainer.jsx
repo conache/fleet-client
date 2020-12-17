@@ -4,7 +4,16 @@ import {connect} from 'react-redux';
 import { isAuthenticated } from "../session";
 import {getProfile} from "../reducers/user.reducer";
 import { bindActionCreators } from "redux";
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#000000'
+    }
+  }
+});
 
 class ApplicationContainer extends React.Component {
   constructor(...args) {
@@ -33,9 +42,9 @@ class ApplicationContainer extends React.Component {
   }
 
   render() {
-    return <React.Fragment>
+    return <ThemeProvider theme={theme}>
       <Application {...this.props}/>
-    </React.Fragment>
+    </ThemeProvider>
   }
 }
 
