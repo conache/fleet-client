@@ -51,8 +51,8 @@ const progressDotLabel = {
   [RUN_STATES.FINISHED]: {
     [ProgressDotState.LOADING]: "",
     [ProgressDotState.INACTIVE]: null,
-    [ProgressDotState.SUCCESS]: "Evaluation finished",
-    [ProgressDotState.ERROR]: "Evaluation finished",
+    [ProgressDotState.SUCCESS]: "Run finished",
+    [ProgressDotState.ERROR]: "Run finished",
   },
 }
 

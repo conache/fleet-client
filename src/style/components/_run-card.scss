@@ -4,7 +4,7 @@ $run-card-lg: 1724px;
 
 .run-card {
   max-width: 964px;
-  width: max-content;
+  width: 100%;
 }
 
 .card-content {
@@ -37,7 +37,7 @@ $run-card-lg: 1724px;
 
   &.side {
     flex-direction: column;
-    padding: 18px 0px 18px 24px;
+    padding: 18px 0px 18px 12px;
     border-left: 2px solid $inactive-background-color-primary;
 
     @media (min-width: $run-card-md) and (max-width: $run-card-lg) {
@@ -65,5 +65,5 @@ $run-card-lg: 1724px;
 }
 
 .run-stats {
-  padding-right: 24px;
+  padding-right: 36px;
 }

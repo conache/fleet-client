@@ -8,6 +8,7 @@ import RunCardWidget from './RunCardWidget';
 import TimerIcon from '@material-ui/icons/Timer';
 import EventIcon from '@material-ui/icons/Event';
 import BugReportIcon from '@material-ui/icons/BugReport';
+import { isTerminalRunState } from '../../utils';
 
 
 class RunCardWidgets extends React.Component {
@@ -33,9 +34,9 @@ class RunCardWidgets extends React.Component {
       <RunCardWidget key="duration" title="Duration" IconClass={TimerIcon}>
         <div>{this.getRunDurationLabel()}</div>
       </RunCardWidget>,
-      <RunCardWidget keys="issues" title="Issues found" IconClass={BugReportIcon}>
+      isTerminalRunState(run.state) ? <RunCardWidget keys="issues" title="Issues found" IconClass={BugReportIcon}>
         <div>{this.getRunIssuesLabel()}</div>
-      </RunCardWidget>
+      </RunCardWidget> : null
     ];
   }
 

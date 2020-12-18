@@ -34,6 +34,7 @@ function* listTestRuns(action) {
 function* getTestRun(action) {
   try {
     const {testRun} = yield call(() => TestRunApiService.getTestRun(action.payload));
+    testRun.stateMetadata = decodeTestRunStateMetadata(testRun.stateMetadata);
     yield put(testRunsActions.getSuccess(testRun));
     const {file} = yield call(() => UploadsApiService.getFile(testRun.fileId))
     yield put(fileActions.getSuccess(file));
