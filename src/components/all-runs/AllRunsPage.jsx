@@ -15,11 +15,13 @@ class AllRunsPage extends React.Component {
   render() {
     const {testRuns} = this.props;
 
+    console.log("Test runs:", testRuns);
+    
     return [
-      <div className="runs-container">
+      <div key="runs-container" className="runs-container">
         {testRuns.map((testRun, index) => <RunCard key={index} testRun={testRun}/>)}
       </div>,
-      <Upload />
+      <Upload key="upload-component" />
     ]
   }
 }

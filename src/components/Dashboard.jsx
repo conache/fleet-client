@@ -19,19 +19,19 @@ class Dashboard extends React.Component {
 
   render() {
     const { match, currentUser } = this.props;
-    const { displayNewRunModal } = this.state;
+    // const { displayNewRunModal } = this.state;
 
     return [
       <Grid container direction="row" className="dashboard-container">
         <Grid item xs={2}>
           <SideNav user={currentUser} />
         </Grid>
-        <Grid item xs={10} direction="column" justify="flex-start" alignItems="center" className="dashboard-section">
+        <Grid item xs={10} className="dashboard-section">
           <TopNav onNewRunClick={() => this.setState({ displayNewRunModal: true })} />
-          <Grid container md={12} lg={8} className="dashboard-content">
+          <Grid container className="dashboard-content">
               <Switch >
-                <Route exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
-                <Route exact path={`${match.path}/`} component={AllRunsPage} />
+                <Route key="run-page" exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
+                <Route key="all-runs-page"exact path={`${match.path}/`} component={AllRunsPage} />
                 <Redirect to={{ pathname: "/" }} />
               </Switch>
           </Grid>

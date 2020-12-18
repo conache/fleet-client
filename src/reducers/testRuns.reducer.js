@@ -1,6 +1,8 @@
 import Immutable from 'seamless-immutable';
+import moment from 'moment';
 import {actionTypes, initiateCreate, inititateGet, inititateList} from "../actions/testRuns.actions"
 import { RUN_STATES } from '../constants';
+
 
 export default function reducer(state = Immutable([]), action) {
   switch (action.type) {
@@ -18,14 +20,17 @@ export default function reducer(state = Immutable([]), action) {
           return testRun;
         }
         
+        debugger;
         if (Object.values(RUN_STATES).indexOf(testRun.state) > Object.values(RUN_STATES).indexOf(action.payload.state)) {
           return testRun;
         }
 
-        return {
-          ...testRun,
-          state: action.payload.state
+        const newTestRun = {...testRun, ...action.payload};
+        if (action.payload.state === RUN_STATES.ERROR || action.payload.state === RUN_STATES.FINISHED) {
+          newTestRun.FinishedAt = moment().format();
         }
+
+        return newTestRun;
       })
     case actionTypes.TEST_RUN_GET_SUCCESS:
       const existentTestRun = state.find(testRun => testRun.id === action.payload.id)

@@ -10,57 +10,81 @@ import EventIcon from '@material-ui/icons/Event';
 import BugReportIcon from '@material-ui/icons/BugReport';
 
 
-class RunDuration extends React.Component {
-  constructor(...args) {
-    super(...args);
-    this.timer = null;
-  }
-  
-  componentDidUpdate(prevProps) {
-    if (this.runHasFinishedAtTimestamp(this.props.run)) {
-      clearInterval(this.timer);
-    }
-  }
-
+class RunCardWidgets extends React.Component {
   componentDidMount() {
-    if (!this.runHasFinishedAtTimestamp(this.props.run)) {
-      this.timer = setInterval(() => this.forceUpdate(), 1000);
-    }
+    this.redrawInterval = setInterval(() => this.forceUpdate(), 1000);
   }
 
-  runHasFinishedAtTimestamp(run) {
-    return moment(run.FinishedAt).unix() !== 0;
-  }
-  
-  getRunDurationLabel(run) {
-    const creationDate = moment(run.CreatedAt);
-    const finishedDate = this.runHasFinishedAtTimestamp(run) ? moment(run.FinishedAt) : moment.now();
-    const duration = moment.duration(finishedDate.diff(creationDate));
-    let label = "";
-  
-    if (duration.days()) {
-      label += `${duration.days()}d `;
-    }
-  
-    if (duration.hours() || label.length) {
-      label += `${duration.hours()}h `;
-    }
-  
-    if (duration.minutes() || label.length) {
-      label += `${duration.minutes()}m `;
-    }
-  
-    if (duration.seconds() || label.length) {
-      label += `${duration.seconds()}s`;
-    }
-  
-    return label
+  componentWillUnmount() {
+    clearInterval(this.redrawInterval);
   }
 
   render() {
     const {run} = this.props;
 
-    return <div>{this.getRunDurationLabel(run)}</div>
+    if (!run) {
+      return null;
+    }
+
+    return [
+      <RunCardWidget key="started" title="Started" IconClass={EventIcon}>
+        <div>{this.getRunCreationLabel()}</div>
+      </RunCardWidget>,
+      <RunCardWidget key="duration" title="Duration" IconClass={TimerIcon}>
+        <div>{this.getRunDurationLabel()}</div>
+      </RunCardWidget>,
+      <RunCardWidget keys="issues" title="Issues found" IconClass={BugReportIcon}>
+        <div>{this.getRunIssuesLabel()}</div>
+      </RunCardWidget>
+    ];
+  }
+
+  getRunCreationLabel() {
+    const { run } = this.props;
+    const creationDate = moment(run.CreatedAt);
+
+    if (creationDate.diff(moment.now(), 'days') > 2) {
+      return creationDate.format("MM-DD-YYYY");
+    }
+    return creationDate.fromNow()
+  }
+
+  getRunIssuesLabel() {
+    const { run } = this.props;
+    if (run.runIssuesCount) {
+      return `${run.runIssuesCount} issues`;
+    }
+
+    return "no issues found";
+  }
+
+  getRunDurationLabel() {
+    const { run } = this.props;
+
+    const creationDate = moment(run.CreatedAt);
+    const finishedDate = this.runHasFinishedAtTimestamp(run) ? moment(run.FinishedAt) : moment();
+    const duration = moment.duration(finishedDate.diff(creationDate));
+    let label = "";
+
+    if (duration.days()) {
+      label += `${duration.days()}d `;
+    }
+
+    if (duration.hours() || label.length) {
+      label += `${duration.hours()}h `;
+    }
+
+    if (duration.minutes() || label.length) {
+      label += `${duration.minutes()}m `;
+    }
+
+    label += `${duration.seconds()}s`;
+
+    return label
+  }
+
+  runHasFinishedAtTimestamp(run) {
+    return moment(run.FinishedAt).unix() !== moment("0001-01-01T00:00:00Z").unix();
   }
 }
 
@@ -76,36 +100,6 @@ function hasClickableCard(testRun) {
   return false;
 }
 
-function getRunCreationLabel(run) {
-  const creationDate = moment(run.CreatedAt);
-
-  if (creationDate.diff(moment.now(), 'days') > 2) {
-    return creationDate.format("MM-DD-YYYY");
-  }
-  return creationDate.fromNow()
-}
-
-function getRunIssuesLabel(run) {
-  if (run.runIssuesCount) {
-    return `${run.runIssuesCount} issues`;
-  }
-
-  return "no issues found";
-}
-
-function getRunCardWidgets(run) {
-  return [
-    <RunCardWidget title="Started" IconClass={EventIcon}>
-    <div>{getRunCreationLabel(run)}</div>
-    </RunCardWidget>,
-    <RunCardWidget title="Duration" IconClass={TimerIcon}>
-      <RunDuration run={run} />
-    </RunCardWidget>,
-    <RunCardWidget title="Issues found" IconClass={BugReportIcon}>
-      <div>{getRunIssuesLabel(run)}</div>
-    </RunCardWidget>
-  ]
-}
 
 const RunCard = (props) => {
   const { history, testRun } = props;
@@ -119,10 +113,10 @@ const RunCard = (props) => {
           <ProgressBar className="progress-bar" currentState={testRun.state} lastValidState={testRun.stateMetadata?.lastValidState} />
         </div>
         <div className="run-meta side">
-          {getRunCardWidgets(testRun)}
+          <RunCardWidgets key="side-widgets"run={testRun} />
         </div>
         <div className="run-meta bottom">
-          {getRunCardWidgets(testRun)}
+          <RunCardWidgets key="bottom-widgets" run={testRun} />
         </div>
       </CardContent>
     </Card>
