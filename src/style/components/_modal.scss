@@ -15,8 +15,10 @@
     border-radius: 10px;
     padding: 24px;
     background: #fff;
-    width: 35%;
+    width: 100%;
+    max-width: 476px;
     box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.15);
+    outline: none;
   }
 
   &-header {
@@ -44,5 +46,10 @@
   &-form {
     display: flex;
     flex-direction: column;
+  }
+
+  &-button {
+    width: 50%;
+    height: 44px;
   }
 }

@@ -5,8 +5,8 @@ import AllRunsPage from "./all-runs/AllRunsPage";
 import RunPage from './run/RunPage';
 import TopNav from "./nav/TopNav";
 import SideNav from "./nav/SideNav";
-// import GeneralModal from "./shared/GeneralModal";
-// import NewRunTemplate from './shared/NewRunTemplate';
+import GeneralModal from "./shared/GeneralModal";
+import NewRunTemplate from './shared/NewRunTemplate';
 import { Grid } from '@material-ui/core';
 
 class Dashboard extends React.Component {
@@ -19,7 +19,8 @@ class Dashboard extends React.Component {
 
   render() {
     const { match, currentUser } = this.props;
-    // const { displayNewRunModal } = this.state;
+    const { displayNewRunModal } = this.state;
+    const closeModalFct = () => this.setState({ displayNewRunModal: false });
 
     return [
       <Grid container direction="row" className="dashboard-container">
@@ -29,18 +30,16 @@ class Dashboard extends React.Component {
         <Grid item xs={10} className="dashboard-section">
           <TopNav onNewRunClick={() => this.setState({ displayNewRunModal: true })} />
           <Grid container className="dashboard-content">
-              <Switch >
-                <Route key="run-page" exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
-                <Route key="all-runs-page"exact path={`${match.path}/`} component={AllRunsPage} />
-                <Redirect to={{ pathname: "/" }} />
-              </Switch>
+            <Switch >
+              <Route key="run-page" exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
+              <Route key="all-runs-page" exact path={`${match.path}/`} component={AllRunsPage} />
+              <Redirect to={{ pathname: "/" }} />
+            </Switch>
           </Grid>
         </Grid>
-        {/*
-      <GeneralModal title="New run" name="new-run" showModal={displayNewRunModal} closeModalFct={() => this.setState({displayNewRunModal: false})}>
-        <NewRunTemplate />
-      </GeneralModal> */}
-
+        <GeneralModal title="Create new run" name="new-run" showModal={displayNewRunModal} closeModalFct={closeModalFct} >
+          <NewRunTemplate onCancel={closeModalFct} onConfirm={closeModalFct} />
+        </GeneralModal>
       </Grid>
     ]
   }
