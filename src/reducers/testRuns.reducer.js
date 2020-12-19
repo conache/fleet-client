@@ -1,18 +1,22 @@
 import Immutable from 'seamless-immutable';
 import moment from 'moment';
-import {actionTypes, initiateCreate, inititateGet, inititateList} from "../actions/testRuns.actions"
+import { actionTypes, initiateCreate, inititateGet, inititateList } from "../actions/testRuns.actions"
 import { RUN_STATES } from '../constants';
 import { isTerminalRunState } from '../utils';
 
 
-export default function reducer(state = Immutable([]), action) {
+export default function reducer(state = Immutable({}), action) {
   switch (action.type) {
+    case actionTypes.TEST_RUN_REQUEST_CREATE:
+      return state.merge({ isCreating: (state.isCreating || 0) + 1 }, { deep: true })
     case actionTypes.TEST_RUN_CREATE_SUCCESS:
-      return state.concat([action.payload])
+      return state.merge({ items: [...state.items, action.payload], isCreating: state.isCreating - 1 }, { deep: true })
+    case actionTypes.TEST_RUN_REQUEST_LIST:
+      return state.merge({ isListLoading: true })
     case actionTypes.TEST_RUN_LIST_SUCCESS:
-      return Immutable(action.payload)
+      return state.merge({ items: action.payload }).merge({ isListLoading: false })
     case actionTypes.TEST_RUN_UPDATE_STATE:
-      return state.map((testRun) => {
+      const newTestRuns = state.items.map((testRun) => {
         if (!action.payload.state) {
           return testRun;
         }
@@ -20,33 +24,37 @@ export default function reducer(state = Immutable([]), action) {
         if (testRun.id !== action.payload.testRunId) {
           return testRun;
         }
-        
+
         if (Object.values(RUN_STATES).indexOf(testRun.state) > Object.values(RUN_STATES).indexOf(action.payload.state)) {
           return testRun;
         }
 
-        const newTestRun = {...testRun, ...action.payload};
+        const newTestRun = { ...testRun, ...action.payload };
         if (isTerminalRunState(action.payload.state)) {
           newTestRun.FinishedAt = moment().format();
         }
 
         return newTestRun;
-      })
+      });
+
+      return state.merge({ items: newTestRuns });
     case actionTypes.TEST_RUN_GET_SUCCESS:
-      const existentTestRun = state.find(testRun => testRun.id === action.payload.id)
+      const existentTestRun = state.items.find(testRun => testRun.id === action.payload.id)
       if (!existentTestRun) {
-        return state.concat([action.payload]);
+        return state.merge({ items: [...state.items, action.payload] });
       }
 
-      return state.map((testRun) => {
-        if (testRun.id !== action.payload.id) {
-          return testRun;
-        }
+      return state.merge({
+        items: state.items.map((testRun) => {
+          if (testRun.id !== action.payload.id) {
+            return testRun;
+          }
 
-        return {
-          ...existentTestRun,
-          ...action.payload
-        };
+          return {
+            ...existentTestRun,
+            ...action.payload
+          };
+        }),
       });
     default:
       return state;
@@ -54,7 +62,7 @@ export default function reducer(state = Immutable([]), action) {
 }
 
 export const createTestRun = (testRun, fileSpec, jsFileObject) => {
-  return initiateCreate({testRun, fileSpec, jsFileObject});
+  return initiateCreate({ testRun, fileSpec, jsFileObject });
 }
 
 export const listTestRuns = () => {

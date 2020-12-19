@@ -8,6 +8,10 @@ import SideNav from "./nav/SideNav";
 import GeneralModal from "./shared/GeneralModal";
 import NewRunTemplate from './shared/NewRunTemplate';
 import { Grid } from '@material-ui/core';
+import LoadingSpinner from './shared/LoadingSpinner';
+import { connect} from "react-redux";
+import { pathOr } from 'rambda';
+
 
 class Dashboard extends React.Component {
   constructor(...args) {
@@ -18,7 +22,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { match, currentUser } = this.props;
+    const { match, currentUser, testRunsLoading, testRunCreating } = this.props;
     const { displayNewRunModal } = this.state;
     const closeModalFct = () => this.setState({ displayNewRunModal: false });
 
@@ -30,6 +34,7 @@ class Dashboard extends React.Component {
         <Grid item xs={10} className="dashboard-section">
           <TopNav onNewRunClick={() => this.setState({ displayNewRunModal: true })} />
           <Grid container className="dashboard-content">
+            {testRunsLoading || (testRunCreating > 0) ? <LoadingSpinner /> : null }
             <Switch >
               <Route key="run-page" exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
               <Route key="all-runs-page" exact path={`${match.path}/`} component={AllRunsPage} />
@@ -45,4 +50,11 @@ class Dashboard extends React.Component {
   }
 }
 
-export default withUser(Dashboard);
+function mapStateToProps(state) {
+  return {
+    testRunsLoading: pathOr(false, ["testRuns", "isListLoading"], state),
+    testRunCreating: pathOr(0, ["testRuns", "isCreating"], state),
+  };
+}
+
+export default connect(mapStateToProps, null)(withUser(Dashboard));

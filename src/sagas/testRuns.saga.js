@@ -1,7 +1,7 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import * as TestRunApiService from "../api/testRun";
 import * as UploadsApiService from "../api/uploads";
-import { actionTypes, createSuccess, listSuccess} from "../actions/testRuns.actions";
+import { actionTypes} from "../actions/testRuns.actions";
 import * as testRunsActions from "../actions/testRuns.actions";
 import fileActions from "../actions/files.actions";
 import { decodeTestRunStateMetadata } from "../utils";
@@ -10,8 +10,9 @@ import { RUN_STATES } from "../constants";
 function* createTestRun(action) {
   try {
     const {testRun, fileSpec, jsFileObject} = action.payload;
+    yield put(testRunsActions.requestCreate())
     const response = yield call(() => TestRunApiService.create({testRun, fileSpec}))
-    yield put(createSuccess({...response.testRun, state: RUN_STATES.INITIATED_DONE}))
+    yield put(testRunsActions.createSuccess({...response.testRun, state: RUN_STATES.INITIATED_DONE}))
     yield put(fileActions.shallowCreateFile({testRunId: response.testRun.id, jsObject: jsFileObject}))
   } catch (err) {
     console.error("Test run create error:", err)
@@ -20,9 +21,10 @@ function* createTestRun(action) {
 
 function* listTestRuns(action) {
   try {
+    yield put(testRunsActions.requestList())
     const response = yield call(() => TestRunApiService.list())
     const testRuns = response.testRuns || [];
-    yield put(listSuccess(testRuns.map(run => {
+    yield put(testRunsActions.listSuccess(testRuns.map(run => {
       run.stateMetadata = decodeTestRunStateMetadata(run.stateMetadata);
       return run
     })))

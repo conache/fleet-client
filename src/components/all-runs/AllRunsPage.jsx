@@ -22,7 +22,7 @@ class AllRunsPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    testRuns: Immutable.asMutable(pathOr([], ["testRuns"], state)).sort((a, b) => {
+    testRuns: Immutable.asMutable(pathOr([], ["testRuns", "items"], state)).sort((a, b) => {
       return new Date(b.CreatedAt) - new Date(a.CreatedAt);
     })
   }
