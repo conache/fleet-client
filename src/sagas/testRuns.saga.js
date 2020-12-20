@@ -2,6 +2,7 @@ import { takeEvery, call, put } from "redux-saga/effects";
 import * as TestRunApiService from "../api/testRun";
 import * as UploadsApiService from "../api/uploads";
 import { actionTypes} from "../actions/testRuns.actions";
+import * as uiActions from "../actions/ui.actions";
 import * as testRunsActions from "../actions/testRuns.actions";
 import fileActions from "../actions/files.actions";
 import { decodeTestRunStateMetadata } from "../utils";
@@ -13,9 +14,11 @@ function* createTestRun(action) {
     yield put(testRunsActions.requestCreate())
     const response = yield call(() => TestRunApiService.create({testRun, fileSpec}))
     yield put(testRunsActions.createSuccess({...response.testRun, state: RUN_STATES.INITIATED_DONE}))
+    yield put(uiActions.showSuccessNotification("Run successfully created"))
     yield put(fileActions.shallowCreateFile({testRunId: response.testRun.id, jsObject: jsFileObject}))
   } catch (err) {
-    console.error("Test run create error:", err)
+    yield put(uiActions.showErrorNotification("Test run couldn't be created."));
+    console.warn("Test run create error:", err)
   }
 }
 
@@ -29,7 +32,8 @@ function* listTestRuns(action) {
       return run
     })))
   } catch (err) {
-    console.error("Error encountered while listing test runs:", err);
+    yield put(uiActions.showErrorNotification("Error encountered while listing your runs. Please refresh the app!"))
+    console.warn("Error encountered while listing test runs:", err);
   }
 }
 
@@ -41,7 +45,8 @@ function* getTestRun(action) {
     const {file} = yield call(() => UploadsApiService.getFile(testRun.fileId))
     yield put(fileActions.getSuccess(file));
   } catch (err) {
-    console.error("Error encountered while retrieving test run:", err);
+    yield put(uiActions.showErrorNotification("Error encountered while retrieving test run."))
+    console.warn("Error encountered while retrieving test run:", err);
   }
 }
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Router, Switch } from 'react-router-dom';
+import { Router, Switch } from 'react-router-dom';
 import '../index.scss';
 import { isAuthenticated } from "../session";
 import LoginForm from './authentication/LoginForm';
@@ -9,18 +9,20 @@ import PrivateRoute from './common/PrivateRoute';
 import LandingPage from './landing/LandingPage';
 import { UserContext } from '../context/user';
 import history from "../history";
+import Notification from './shared/Notification';
 
 
 class Application extends Component {
   render() {
-    const {user} = this.props;
+    const { user } = this.props;
     const userIsAuthenticated = isAuthenticated();
 
-    return (
+    return [
+      <Notification />,
       <Router history={history}>
         <Switch>
           <PrivateRoute exact path="/login"
-            component={LoginForm} 
+            component={LoginForm}
             hasPermission={!userIsAuthenticated}
             redirectTo="/"
           />
@@ -42,7 +44,7 @@ class Application extends Component {
           </UserContext.Provider>
         </Switch>
       </Router>
-    );
+    ];
   }
 }
 

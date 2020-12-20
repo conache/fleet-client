@@ -6,6 +6,7 @@ import testRunActions from "../actions/testRuns.actions";
 import fileUploadService from "../services/file-upload-service/FileUploadService";
 import { RUN_STATES } from "../constants";
 import { decodeTestRunStateMetadata, isTerminalRunState } from "../utils";
+import uiActions from "../actions/ui.actions";
 
 const getFiles = state => state.files;
 
@@ -18,7 +19,7 @@ function* handleFileEntityCreation(action) {
     yield put(testRunActions.updateTestRunState({testRunId: updatedFile.testRunId, state: RUN_STATES.FILE_UPLOAD}));
     fileUploadService.startFileUpload(updatedFile.id, updatedFile.jsObject);
   } catch (err) {
-    console.log("Test run create error:", err);
+    console.warn("[WSS saga] Test run create error:", err);
   }
 }
 
@@ -30,6 +31,11 @@ function* handleTestRunStateChange(action) {
   const response = yield call(() => TestRunApiService.getTestRun(action.payload.testRunId));
   response.testRun.stateMetadata = decodeTestRunStateMetadata(response.testRun.stateMetadata);
   yield put(testRunActions.getSuccess(response.testRun));
+  if (action.payload.state === RUN_STATES.ERROR) {
+    yield put(uiActions.showErrorNotification(`Test run '${response.testRun.name}' finished with error.`));
+  } else {
+    yield put(uiActions.showSuccessNotification(`Test run '${response.testRun.name}' successfully finished.`));
+  }
 }
 
 export default function* watchWssMessagesSaga() {

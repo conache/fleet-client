@@ -1,4 +1,5 @@
 import { takeEvery, call, put } from "redux-saga/effects";
+import * as uiActions from "../actions/ui.actions";
 import { actionTypes, getProfileSuccess, loginSuccess, logoutSuccess, signUpSuccess } from "../actions/user.actions";
 import wssConnector from "../services/wss-subscriber/WssConnector";
 import * as UserApiService from "../api/user";
@@ -33,6 +34,7 @@ function* getUserProfile(action) {
     yield put(getProfileSuccess(response.user))
     wssConnector.connect()
   } catch (err) {
+    yield put(uiActions.showErrorNotification("Error encountered while getting your profile."))
     console.log("Error encountered while retrieving user profile", err)
   }
 }

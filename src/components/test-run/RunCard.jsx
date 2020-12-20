@@ -8,7 +8,6 @@ import RunCardWidget from './RunCardWidget';
 import TimerIcon from '@material-ui/icons/Timer';
 import EventIcon from '@material-ui/icons/Event';
 import BugReportIcon from '@material-ui/icons/BugReport';
-import { isTerminalRunState } from '../../utils';
 
 
 class RunCardWidgets extends React.Component {

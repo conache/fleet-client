@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import { isAuthenticated } from "../session";
 import {getProfile} from "../reducers/user.reducer";
 import { bindActionCreators } from "redux";
+import { SnackbarProvider } from 'notistack';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 
@@ -43,7 +44,9 @@ class ApplicationContainer extends React.Component {
 
   render() {
     return <ThemeProvider theme={theme}>
-      <Application {...this.props}/>
+      <SnackbarProvider>
+        <Application {...this.props}/>
+      </SnackbarProvider>
     </ThemeProvider>
   }
 }
