@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import { listTestRuns } from "../../reducers/testRuns.reducer";
 import RunCard from '../test-run/RunCard';
 import Immutable from 'seamless-immutable';
+import NoRuns from './NoRuns';
 
 class AllRunsPage extends React.Component {
   componentDidMount() {
@@ -12,7 +13,11 @@ class AllRunsPage extends React.Component {
   }
 
   render() {
-    const { testRuns } = this.props;
+    const { testRuns, testRunsLoading, testRunCreating, onActionButtonClick } = this.props;
+
+    if (testRuns?.length === 0 && !testRunsLoading && !testRunCreating) {
+      return <NoRuns onButtonClick={onActionButtonClick}/>
+    }
 
     return <div key="runs-container" className="runs-container">
       {testRuns.map((testRun, index) => <RunCard key={index} testRun={testRun} />)}
@@ -22,6 +27,8 @@ class AllRunsPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    testRunsLoading: pathOr(false, ["testRuns", "isListLoading"], state),
+    testRunCreating: pathOr(0, ["testRuns", "isCreating"], state),
     testRuns: Immutable.asMutable(pathOr([], ["testRuns", "items"], state)).sort((a, b) => {
       return new Date(b.CreatedAt) - new Date(a.CreatedAt);
     })

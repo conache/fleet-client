@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch, withRouter} from "react-router-dom";
 import { withUser } from "../context/user";
 import AllRunsPage from "./all-runs/AllRunsPage";
 import RunPage from './run/RunPage';
@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { match, currentUser, testRunsLoading, testRunCreating } = this.props;
+    const { match, currentUser, testRunsLoading, testRunCreating, history } = this.props;
     const { displayNewRunModal } = this.state;
     const closeModalFct = () => this.setState({ displayNewRunModal: false });
 
@@ -37,13 +37,18 @@ class Dashboard extends React.Component {
             {testRunsLoading || (testRunCreating > 0) ? <LoadingSpinner /> : null }
             <Switch >
               <Route key="run-page" exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
-              <Route key="all-runs-page" exact path={`${match.path}/`} component={AllRunsPage} />
+              <Route key="all-runs-page" exact path={`${match.path}/`} render={() => {
+                return <AllRunsPage onActionButtonClick={() => this.setState({displayNewRunModal: true})} />
+              }}/>
               <Redirect to={{ pathname: "/" }} />
             </Switch>
           </Grid>
         </Grid>
         <GeneralModal title="Create new run" name="new-run" showModal={displayNewRunModal} closeModalFct={closeModalFct} >
-          <NewRunTemplate onCancel={closeModalFct} onConfirm={closeModalFct} />
+          <NewRunTemplate onCancel={closeModalFct} onConfirm={() => {
+            closeModalFct();
+            history.push("/all-runs-page");
+          }} />
         </GeneralModal>
       </Grid>
     ]
@@ -57,4 +62,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, null)(withUser(Dashboard));
+export default connect(mapStateToProps, null)(withUser(withRouter(Dashboard)));
