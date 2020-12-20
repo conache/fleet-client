@@ -34,7 +34,7 @@ class RunCardWidgets extends React.Component {
       <RunCardWidget key="duration" title="Duration" IconClass={TimerIcon}>
         <div>{this.getRunDurationLabel()}</div>
       </RunCardWidget>,
-      isTerminalRunState(run.state) ? <RunCardWidget keys="issues" title="Issues found" IconClass={BugReportIcon}>
+      run.state === RUN_STATES.FINISHED ? <RunCardWidget keys="issues" title="Issues found" IconClass={BugReportIcon}>
         <div>{this.getRunIssuesLabel()}</div>
       </RunCardWidget> : null
     ];
