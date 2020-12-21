@@ -39,6 +39,7 @@ function* listTestRuns(action) {
 
 function* getTestRun(action) {
   try {
+    yield put(testRunsActions.requestGet({id: action.payload}))
     const {testRun} = yield call(() => TestRunApiService.getTestRun(action.payload));
     testRun.stateMetadata = decodeTestRunStateMetadata(testRun.stateMetadata);
     yield put(testRunsActions.getSuccess(testRun));

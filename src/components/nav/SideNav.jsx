@@ -1,4 +1,5 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { bindActionCreators } from 'redux';
@@ -7,10 +8,10 @@ import { connect } from 'react-redux';
 
 class SideNav extends React.Component {
   render() {
-    const { user, logout } = this.props;
+    const { user, logout, history} = this.props;
 
     return <div className="side-nav">
-      <div className="side-nav-container logo">river._</div>
+      <div className="side-nav-container logo" onClick={() => history.push("/")}>river._</div>
       <div className="side-nav-container user">
         <AccountCircleIcon className="account-icon"/>
         {user ? <div className="user-details">
@@ -32,5 +33,5 @@ class SideNav extends React.Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ logout }, dispatch)
 }
-export default connect(null, mapDispatchToProps)(SideNav);
+export default connect(null, mapDispatchToProps)(withRouter(SideNav));
 

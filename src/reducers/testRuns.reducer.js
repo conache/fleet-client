@@ -38,13 +38,16 @@ export default function reducer(state = Immutable({items: []}), action) {
       });
 
       return state.merge({ items: newTestRuns });
+    case actionTypes.TEST_RUN_REQUEST_GET:
+      return state.merge({ requestingTestRunId: parseInt(action.payload.id) })
     case actionTypes.TEST_RUN_GET_SUCCESS:
       const existentTestRun = state.items.find(testRun => testRun.id === action.payload.id)
       if (!existentTestRun) {
-        return state.merge({ items: [...state.items, action.payload] });
+        return state.merge({requestingTestRunId: null, items: [...state.items, action.payload] });
       }
 
       return state.merge({
+        requestingTestRunId: null,
         items: state.items?.map((testRun) => {
           if (testRun.id !== action.payload.id) {
             return testRun;

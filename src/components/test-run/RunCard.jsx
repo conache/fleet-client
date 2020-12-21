@@ -88,40 +88,45 @@ class RunCardWidgets extends React.Component {
   }
 }
 
-function hasClickableCard(testRun) {
-  if (!testRun) {
+class RunCard extends React.Component {
+  isClickable() {
+    const {testRun, clickable} = this.props;
+    if (!clickable) {
+      return false;
+    }
+
+    if (!testRun) {
+      return false;
+    }
+
+    if (testRun.state === RUN_STATES.FINISHED) {
+      return true;
+    }
+
     return false;
   }
 
-  if (testRun.state === RUN_STATES.FINISHED) {
-    return true;
+  render() {
+    const { history, testRun } = this.props;
+
+    return (
+      <Card className={"run-card " + (this.isClickable() ? "clickable" : "")}
+        onClick={() => this.isClickable() && history.push(`runs/${testRun.id}`)} >
+        <CardContent className="card-content">
+          <div className="run-stats">
+            <div className="card-title">{testRun.name}</div>
+            <ProgressBar className="progress-bar" currentState={testRun.state} lastValidState={testRun.stateMetadata?.lastValidState} />
+          </div>
+          <div className="run-meta side">
+            <RunCardWidgets key="side-widgets"run={testRun} />
+          </div>
+          <div className="run-meta bottom">
+            <RunCardWidgets key="bottom-widgets" run={testRun} />
+          </div>
+        </CardContent>
+      </Card>
+    );
   }
-
-  return false;
 }
-
-
-const RunCard = (props) => {
-  const { history, testRun } = props;
-
-  return (
-    <Card className={"run-card " + (hasClickableCard(testRun) ? "clickable" : "")}
-      onClick={() => hasClickableCard(testRun) && history.push(`runs/${testRun.id}`)} >
-      <CardContent className="card-content">
-        <div className="run-stats">
-          <div className="card-title">{testRun.name}</div>
-          <ProgressBar className="progress-bar" currentState={testRun.state} lastValidState={testRun.stateMetadata?.lastValidState} />
-        </div>
-        <div className="run-meta side">
-          <RunCardWidgets key="side-widgets"run={testRun} />
-        </div>
-        <div className="run-meta bottom">
-          <RunCardWidgets key="bottom-widgets" run={testRun} />
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
 
 export default withRouter(RunCard);

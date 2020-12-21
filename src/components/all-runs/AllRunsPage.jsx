@@ -20,7 +20,7 @@ class AllRunsPage extends React.Component {
     }
 
     return <div key="runs-container" className="runs-container">
-      {testRuns.map((testRun, index) => <RunCard key={index} testRun={testRun} />)}
+      {testRuns.map((testRun, index) => <RunCard key={index} testRun={testRun} clickable={true} />)}
     </div>;
   }
 }
