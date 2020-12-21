@@ -30,10 +30,10 @@ class RunPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   const {runId} = ownProps;
-  const testRun = pathOr([], ["testRuns"], state).find(testRun => testRun.id === parseInt(runId));
+  const testRun = pathOr([], ["testRuns", "items"], state).find(testRun => testRun.id === parseInt(runId));
   return {
     testRun: testRun,
-    file: pathOr([], ["files"], state).find(file => file.id === testRun.fileId)
+    file: pathOr([], ["files"], state).find(file => file.id === testRun?.fileId)
   }
 }
 

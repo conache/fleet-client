@@ -1,3 +1,6 @@
+import React from 'react';
+import history from "../history";
+import { Button } from "@material-ui/core";
 import { takeEvery, put, select, call } from "redux-saga/effects";
 import * as TestRunApiService from "../api/testRun";
 import { actionTypes } from "../actions/wssMessages.actions";
@@ -12,11 +15,11 @@ const getFiles = state => state.files;
 
 function* handleFileEntityCreation(action) {
   try {
-    const {testRunId, stateMetadata} = action.payload;
-    yield put(fileActions.updateFileByTestRunId({testRunId: testRunId, updateData: stateMetadata}));
+    const { testRunId, stateMetadata } = action.payload;
+    yield put(fileActions.updateFileByTestRunId({ testRunId: testRunId, updateData: stateMetadata }));
     const files = yield select(getFiles);
     const updatedFile = files.find(file => file.testRunId === testRunId);
-    yield put(testRunActions.updateTestRunState({testRunId: updatedFile.testRunId, state: RUN_STATES.FILE_UPLOAD}));
+    yield put(testRunActions.updateTestRunState({ testRunId: updatedFile.testRunId, state: RUN_STATES.FILE_UPLOAD }));
     fileUploadService.startFileUpload(updatedFile.id, updatedFile.jsObject);
   } catch (err) {
     console.warn("[WSS saga] Test run create error:", err);
@@ -32,10 +35,18 @@ function* handleTestRunStateChange(action) {
   response.testRun.stateMetadata = decodeTestRunStateMetadata(response.testRun.stateMetadata);
   yield put(testRunActions.getSuccess(response.testRun));
   if (action.payload.state === RUN_STATES.ERROR) {
-    yield put(uiActions.showErrorNotification(`Test run '${response.testRun.name}' finished with error.`));
-  } else {
-    yield put(uiActions.showSuccessNotification(`Test run '${response.testRun.name}' successfully finished.`));
+    yield put(uiActions.showErrorNotification({ message: `Test run '${response.testRun.name}' finished with error.` }));
+    return;
   }
+  yield put(uiActions.showSuccessNotification({message: `Test run '${response.testRun.name}' successfully finished.`,
+    action: (key) => {
+      const handleActionButtonClick = () => {
+        history.push(`/runs/${response.testRun.id}`);
+      }
+
+      return <Button key={key} color="inherit" onClick={handleActionButtonClick}>See results</Button>
+    }
+  }));
 }
 
 export default function* watchWssMessagesSaga() {

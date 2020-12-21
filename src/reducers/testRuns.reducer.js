@@ -5,7 +5,7 @@ import { RUN_STATES } from '../constants';
 import { isTerminalRunState } from '../utils';
 
 
-export default function reducer(state = Immutable({}), action) {
+export default function reducer(state = Immutable({items: []}), action) {
   switch (action.type) {
     case actionTypes.TEST_RUN_REQUEST_CREATE:
       return state.merge({ isCreating: (state.isCreating || 0) + 1 }, { deep: true })
@@ -45,7 +45,7 @@ export default function reducer(state = Immutable({}), action) {
       }
 
       return state.merge({
-        items: state.items.map((testRun) => {
+        items: state.items?.map((testRun) => {
           if (testRun.id !== action.payload.id) {
             return testRun;
           }

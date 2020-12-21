@@ -34,7 +34,7 @@ function* getUserProfile(action) {
     yield put(getProfileSuccess(response.user))
     wssConnector.connect()
   } catch (err) {
-    yield put(uiActions.showErrorNotification("Error encountered while getting your profile."))
+    yield put(uiActions.showErrorNotification({message: "Error encountered while getting your profile."}))
     console.log("Error encountered while retrieving user profile", err)
   }
 }

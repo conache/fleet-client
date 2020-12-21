@@ -16,7 +16,7 @@ export default function reducer(state = Immutable({}), action) {
       return state.merge({
         notification: {
           ...defaultNotificationConfig,
-          message: action.payload,
+          ...action.payload,
           variant: "success",
         },
       });
@@ -24,7 +24,7 @@ export default function reducer(state = Immutable({}), action) {
       return state.merge({
         notification: {
           ...defaultNotificationConfig,
-          message: action.payload,
+          ...action.payload,
           variant: "error",
         },
       });

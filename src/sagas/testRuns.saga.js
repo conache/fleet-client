@@ -14,10 +14,10 @@ function* createTestRun(action) {
     yield put(testRunsActions.requestCreate())
     const response = yield call(() => TestRunApiService.create({testRun, fileSpec}))
     yield put(testRunsActions.createSuccess({...response.testRun, state: RUN_STATES.INITIATED_DONE}))
-    yield put(uiActions.showSuccessNotification("Run successfully created"))
+    yield put(uiActions.showSuccessNotification({message: "Run successfully created"}))
     yield put(fileActions.shallowCreateFile({testRunId: response.testRun.id, jsObject: jsFileObject}))
   } catch (err) {
-    yield put(uiActions.showErrorNotification("Test run couldn't be created."));
+    yield put(uiActions.showErrorNotification({message: "Test run couldn't be created."}));
     console.warn("Test run create error:", err)
   }
 }
@@ -30,9 +30,9 @@ function* listTestRuns(action) {
     yield put(testRunsActions.listSuccess(testRuns.map(run => {
       run.stateMetadata = decodeTestRunStateMetadata(run.stateMetadata);
       return run
-    })))
+    })));
   } catch (err) {
-    yield put(uiActions.showErrorNotification("Error encountered while listing your runs. Please refresh the app!"))
+    yield put(uiActions.showErrorNotification({message: "Error encountered while listing your runs. Please refresh the app!"}))
     console.warn("Error encountered while listing test runs:", err);
   }
 }
@@ -45,7 +45,7 @@ function* getTestRun(action) {
     const {file} = yield call(() => UploadsApiService.getFile(testRun.fileId))
     yield put(fileActions.getSuccess(file));
   } catch (err) {
-    yield put(uiActions.showErrorNotification("Error encountered while retrieving test run."))
+    yield put(uiActions.showErrorNotification({message: "Error encountered while retrieving test run."}))
     console.warn("Error encountered while retrieving test run:", err);
   }
 }
