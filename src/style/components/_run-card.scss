@@ -15,9 +15,10 @@ $run-card-lg: 1724px;
 .file-details {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin-top: 20px;
   padding: 12px 12px 0px;
-  border-top: 2px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   font-size: 14px;
   color: $font-color-secondary;
 }
@@ -25,6 +26,7 @@ $run-card-lg: 1724px;
 .details-section {
   display: flex;
   flex-direction: row;
+  width: fit-content;
 }
 
 .detail-label {
@@ -63,7 +65,8 @@ $run-card-lg: 1724px;
   &.side {
     flex-direction: column;
     padding: 18px 0px 18px 12px;
-    border-left: 2px solid $inactive-background-color-primary;
+    margin-left: 36px;
+    border-left: 1px solid $inactive-background-color-primary;
 
     @media (min-width: $run-card-md) and (max-width: $run-card-lg) {
       display: none;
@@ -90,5 +93,8 @@ $run-card-lg: 1724px;
 }
 
 .run-stats {
-  padding-right: 36px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

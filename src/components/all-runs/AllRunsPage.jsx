@@ -19,9 +19,7 @@ class AllRunsPage extends React.Component {
       return <NoRuns onButtonClick={onActionButtonClick}/>
     }
 
-    return <div key="runs-container" className="runs-container">
-      {testRuns.map((testRun, index) => <RunCard key={index} testRun={testRun} clickable={true} />)}
-    </div>;
+    return testRuns.map((testRun, index) => <RunCard key={index} testRun={testRun} clickable={true} className="run-card" />);
   }
 }
 

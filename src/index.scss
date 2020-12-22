@@ -3,6 +3,8 @@ html {
   font-size: 16px;
   height: 100%;
   margin: 0;
+  margin-right: calc(100vw - 100%);
+  position: relative;
 }
 
 *, *:before, *:after {
@@ -16,10 +18,12 @@ html {
 body {
   margin: 0;
   height: 100%;
+  width: 100%;
   font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: rgba(232,240,242,0.6);
+  position: relative;
 }
 
 code {

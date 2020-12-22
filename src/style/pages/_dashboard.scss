@@ -11,18 +11,17 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1 !important;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .dashboard-content {
   display: flex;
   flex-direction: column;
   flex-grow: 1 !important;
-  margin-top: 64px;
   padding: 48px 12px;
   align-items: center;
   position: relative;
+  overflow-y: auto;
 }
 
 .clickable {

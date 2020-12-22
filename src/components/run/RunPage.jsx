@@ -111,10 +111,8 @@ class RunPage extends React.Component {
       return <LoadingSpinner />;
     }
 
-    return <div className="run-page-container">
-      <div className="header-section">
-        <RunCard testRun={testRun} testFile={file} clickable={false} />
-      </div>
+    return [
+      <RunCard testRun={testRun} testFile={file} clickable={false} />,
       <Paper className="content-section">
         <TableContainer className="table-container">
           <Table stickyHeader aria-label="sticky table">
@@ -140,7 +138,7 @@ class RunPage extends React.Component {
           {!this.isTableDataLoading() && this.getTableRows().length === 0 ? this.getNoEntriesTableContent() : null}
         </TableContainer>
       </Paper>
-    </div>
+    ];
   }
 }
 

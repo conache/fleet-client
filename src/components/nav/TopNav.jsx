@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from 'react-router-dom';
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 class TopNav extends React.Component {
   constructor(...args) {
@@ -19,9 +19,9 @@ class TopNav extends React.Component {
 
     switch (pagePath) {
       case "runs":
-        return "Run overview"
+        return "run overview"
       default:
-        return "All runs"
+        return "all runs"
     }
   }
 
@@ -34,16 +34,14 @@ class TopNav extends React.Component {
 
   render() {
     return <AppBar position="static" className="top-nav">
-      <Grid container md={12} lg={8} direction="row" className="top-nav-content">
         <Toolbar className="top-nav-toolbar">
-          <Typography variant="h6" className="page-title">
+          <Typography className="page-title">
             {this.state.title}
           </Typography>
           <div className="buttons-section">
             <Button color="inherit" onClick={() => this.props.onNewRunClick()}>New run</Button>
           </div>
         </Toolbar>
-      </Grid>
     </AppBar>
   }
 }

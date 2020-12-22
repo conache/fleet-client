@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, Switch, withRouter} from "react-router-dom";
+import { Route, Redirect, Switch, withRouter } from "react-router-dom";
 import { withUser } from "../context/user";
 import AllRunsPage from "./all-runs/AllRunsPage";
 import RunPage from './run/RunPage';
@@ -9,7 +9,7 @@ import GeneralModal from "./shared/GeneralModal";
 import NewRunTemplate from './shared/NewRunTemplate';
 import { Grid } from '@material-ui/core';
 import LoadingSpinner from './shared/LoadingSpinner';
-import { connect} from "react-redux";
+import { connect } from "react-redux";
 import { pathOr } from 'rambda';
 
 
@@ -34,14 +34,16 @@ class Dashboard extends React.Component {
         <Grid item xs={10} className="dashboard-section">
           <TopNav onNewRunClick={() => this.setState({ displayNewRunModal: true })} />
           <Grid container className="dashboard-content">
-            {testRunsLoading || (testRunCreating > 0) ? <LoadingSpinner /> : null }
-            <Switch >
-              <Route key="run-page" exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
-              <Route key="all-runs-page" exact path={`${match.path}/`} render={() => {
-                return <AllRunsPage onActionButtonClick={() => this.setState({displayNewRunModal: true})} />
-              }}/>
-              <Redirect to={{ pathname: "/" }} />
-            </Switch>
+            {testRunsLoading || (testRunCreating > 0) ? <LoadingSpinner /> : null}
+            <div className="content-container">
+              <Switch >
+                <Route key="run-page" exact path={`/runs/:id`} render={(props) => <RunPage runId={props.match.params.id} />} />
+                <Route key="all-runs-page" exact path={`${match.path}/`} render={() => {
+                  return <AllRunsPage onActionButtonClick={() => this.setState({ displayNewRunModal: true })} />
+                }} />
+                <Redirect to={{ pathname: "/" }} />
+              </Switch>
+            </div>
           </Grid>
         </Grid>
         <GeneralModal title="Create new run" name="new-run" showModal={displayNewRunModal} closeModalFct={closeModalFct} >

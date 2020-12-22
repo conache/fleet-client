@@ -114,9 +114,9 @@ class RunCard extends React.Component {
       <Card className={"run-card " + (this.isClickable() ? "clickable" : "")}
         onClick={() => this.isClickable() && history.push(`runs/${testRun.id}`)} >
         <CardContent className="card-content">
+          <div className="card-title">{testRun.name}</div>
           <div className="run-details">
             <div className="run-stats">
-              <div className="card-title">{testRun.name}</div>
               <ProgressBar className="progress-bar" currentState={testRun.state} lastValidState={testRun.stateMetadata?.lastValidState} />
               {testFile ? <div className="file-details">
                 <div className="details-section">

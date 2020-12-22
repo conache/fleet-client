@@ -1,8 +1,3 @@
-.run-cards-container {
-  max-width: 970px;
-  width: 100%;
-}
-
-.runs-container >:not(:last-child) {
+.run-card:not(:last-child) {
   margin-bottom: 26px;
 }
