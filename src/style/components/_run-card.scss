@@ -4,12 +4,37 @@ $run-card-lg: 1724px;
 
 .run-card {
   max-width: 964px;
-  width: 100%;
+}
+
+.run-details {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.file-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 12px 12px 0px;
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: $font-color-secondary;
+}
+
+.details-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.detail-label {
+  font-weight: bold;
+  margin-right: 4px;
 }
 
 .card-content {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   padding: 18px;
 
   @media (min-width: $run-card-md) and (max-width: $run-card-lg) {

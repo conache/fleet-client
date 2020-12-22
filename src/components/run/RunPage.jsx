@@ -105,15 +105,15 @@ class RunPage extends React.Component {
   }
 
   render() {
-    const { testRun } = this.props;
+    const { testRun, file } = this.props;
 
     if (!testRun) {
       return <LoadingSpinner />;
     }
 
-    return <React.Fragment>
+    return <div className="run-page-container">
       <div className="header-section">
-        <RunCard testRun={testRun} clickable={false} />
+        <RunCard testRun={testRun} testFile={file} clickable={false} />
       </div>
       <Paper className="content-section">
         <TableContainer className="table-container">
@@ -140,7 +140,7 @@ class RunPage extends React.Component {
           {!this.isTableDataLoading() && this.getTableRows().length === 0 ? this.getNoEntriesTableContent() : null}
         </TableContainer>
       </Paper>
-    </React.Fragment>
+    </div>
   }
 }
 

@@ -38,16 +38,26 @@ function* listTestRuns(action) {
 }
 
 function* getTestRun(action) {
+  let testRun = null;
+
   try {
     yield put(testRunsActions.requestGet({id: action.payload}))
-    const {testRun} = yield call(() => TestRunApiService.getTestRun(action.payload));
+    const resp = yield call(() => TestRunApiService.getTestRun(action.payload));
+    testRun = resp.testRun;
     testRun.stateMetadata = decodeTestRunStateMetadata(testRun.stateMetadata);
     yield put(testRunsActions.getSuccess(testRun));
-    const {file} = yield call(() => UploadsApiService.getFile(testRun.fileId))
-    yield put(fileActions.getSuccess(file));
   } catch (err) {
     yield put(uiActions.showErrorNotification({message: "Error encountered while retrieving test run."}))
     console.warn("Error encountered while retrieving test run:", err);
+    return;
+  }
+
+  try {
+    const {file} = yield call(() => UploadsApiService.getFile(testRun.fileId))
+    yield put(fileActions.getSuccess(file));
+  } catch (err) {
+    yield put(uiActions.showErrorNotification({message: "Error retrieving file details for current test run."}))
+    console.warn("Error encountered while retrieving file details for current test run:", err);
   }
 }
 

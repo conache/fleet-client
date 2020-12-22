@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Card, CardContent } from '@material-ui/core';
 import ProgressBar from "./ProgressBar";
 import { RUN_STATES } from '../../constants';
+import { formatBytes } from "../../utils";
 import { withRouter } from 'react-router-dom';
 import RunCardWidget from './RunCardWidget';
 import TimerIcon from '@material-ui/icons/Timer';
@@ -20,7 +21,7 @@ class RunCardWidgets extends React.Component {
   }
 
   render() {
-    const {run} = this.props;
+    const { run } = this.props;
 
     if (!run) {
       return null;
@@ -90,7 +91,7 @@ class RunCardWidgets extends React.Component {
 
 class RunCard extends React.Component {
   isClickable() {
-    const {testRun, clickable} = this.props;
+    const { testRun, clickable } = this.props;
     if (!clickable) {
       return false;
     }
@@ -107,21 +108,34 @@ class RunCard extends React.Component {
   }
 
   render() {
-    const { history, testRun } = this.props;
+    const { history, testRun, testFile } = this.props;
 
     return (
       <Card className={"run-card " + (this.isClickable() ? "clickable" : "")}
         onClick={() => this.isClickable() && history.push(`runs/${testRun.id}`)} >
         <CardContent className="card-content">
-          <div className="run-stats">
-            <div className="card-title">{testRun.name}</div>
-            <ProgressBar className="progress-bar" currentState={testRun.state} lastValidState={testRun.stateMetadata?.lastValidState} />
-          </div>
-          <div className="run-meta side">
-            <RunCardWidgets key="side-widgets"run={testRun} />
-          </div>
-          <div className="run-meta bottom">
-            <RunCardWidgets key="bottom-widgets" run={testRun} />
+          <div className="run-details">
+            <div className="run-stats">
+              <div className="card-title">{testRun.name}</div>
+              <ProgressBar className="progress-bar" currentState={testRun.state} lastValidState={testRun.stateMetadata?.lastValidState} />
+              {testFile ? <div className="file-details">
+                <div className="details-section">
+                  <div className="detail-label">Tested file name:</div>
+                  <div className="detail-content">{testFile.name}</div>
+                </div>
+                <div className="details-section">
+                  <div className="detail-label">File size:</div>
+                  <div className="detail-content">{formatBytes(testFile.size)}</div>
+                </div>
+              </div> : null
+              }
+            </div>
+            <div className="run-meta side">
+              <RunCardWidgets key="side-widgets" run={testRun} />
+            </div>
+            <div className="run-meta bottom">
+              <RunCardWidgets key="bottom-widgets" run={testRun} />
+            </div>
           </div>
         </CardContent>
       </Card>
