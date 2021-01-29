@@ -5,7 +5,7 @@ class FileUploadService {
     constructor() {
         this._chunksUploadersCount = 6;
         this._chunkSize = 1000 * 1000 * 1// 1 mb     
-        this._chunksQueue = new LimitedQueue(1024);
+        this._chunksQueue = new LimitedQueue(100);
         this._chunksUploaders = Array(this._chunksUploadersCount).fill().map((_, index) => new ChunkUploader(this._chunksQueue, index));
     }
 

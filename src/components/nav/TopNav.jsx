@@ -19,9 +19,9 @@ class TopNav extends React.Component {
 
     switch (pagePath) {
       case "runs":
-        return "run overview"
+        return "Run overview"
       default:
-        return "all runs"
+        return "All runs"
     }
   }
 

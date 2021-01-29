@@ -14,6 +14,7 @@ class NewRunTemplate extends React.Component {
     this.state = {
       file: null,
     }
+    this.confirmBtn = React.createRef()
   }
 
   render() {
@@ -25,6 +26,7 @@ class NewRunTemplate extends React.Component {
       })}
       onSubmit={(values) => {
         const { file } = this.state;
+        this.confirmBtn.current.disabled = true;
         this.props.createTestRun(
           {
             name: values.name
@@ -54,7 +56,7 @@ class NewRunTemplate extends React.Component {
           </div>
           <div className="footer-buttons-container">
             <Button variant="contained" className="modal-button" onClick={onCancel} disableElevation>Cancel</Button>
-            <Button type="submit"
+            <Button ref={this.confirmBtn} type="submit"
               variant="contained"
               color="primary"
               className="modal-button"

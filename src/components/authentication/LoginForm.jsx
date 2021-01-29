@@ -11,17 +11,17 @@ class LoginForm extends React.Component {
 
     return <Grid container direction="column" justify="center" alignItems="center"
       style={{ marginTop: '15%' }}>
-      <Paper elevation={3}>
+      <Paper elevation={3} style={{maxWidth: "400px",}}>
+        <div className="side-nav-container logo">river._</div>
         <Formik initialValues={{ email: "", password: "" }} onSubmit={login} >
           {props => {
             const { handleChange } = props;
-            return <Form>
-              <h2>Login</h2>
+            return <Form style={{padding: "24px", textAlign: "center",}}>
               <TextField type="email" name="email" label="Email" fullWidth margin="normal"
                 onChange={handleChange} />
               <TextField name="password" type="password" label="Password" fullWidth margin="normal"
                 onChange={handleChange} />
-              <Button type="submit" variant="contained" color="primary">Login</Button>
+              <Button type="submit" variant="contained" color="primary" style={{width: "100%", marginTop: "36px",}}>Login</Button>
             </Form>
           }}
         </Formik>

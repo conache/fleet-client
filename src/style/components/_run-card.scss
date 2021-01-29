@@ -78,6 +78,7 @@ $run-card-lg: 1724px;
   }
 
   &.bottom {
+    min-width: 264px;
     padding-top: 24px;
     margin-top: 24px;
     border-top: 1px solid $inactive-background-color-primary;

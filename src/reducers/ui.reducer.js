@@ -5,7 +5,7 @@ const defaultNotificationConfig = {
   message: "",
   variant: "default",
   anchorOrigin: {
-    vertical: 'top',
+    vertical: 'bottom',
     horizontal: 'right',
   }
 };

@@ -10,7 +10,18 @@ export default function reducer(state = Immutable({items: []}), action) {
     case actionTypes.TEST_RUN_REQUEST_CREATE:
       return state.merge({ isCreating: (state.isCreating || 0) + 1 }, { deep: true })
     case actionTypes.TEST_RUN_CREATE_SUCCESS:
-      return state.merge({ items: [...state.items, action.payload], isCreating: state.isCreating - 1 }, { deep: true })
+      const newState = {
+        // this case may happen when list response is retrieved faster than create one
+        // this causes the created item being added twice in state 
+        items: state.items.find(item => item.id === action.payload.id) ? state.items : [...state.items, action.payload],
+        isCreating: state.isCreating - 1,
+      };
+
+      if (state.items.find(item => item.id === action.payload.id)) {
+        debugger;
+      }
+
+      return state.merge(newState, { deep: true })
     case actionTypes.TEST_RUN_REQUEST_LIST:
       return state.merge({ isListLoading: true })
     case actionTypes.TEST_RUN_LIST_SUCCESS:
