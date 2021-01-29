@@ -3,7 +3,7 @@ import ChunkUploader from './ChunkUploader';
 
 class FileUploadService {    
     constructor() {
-        this._chunksUploadersCount = 6;
+        this._chunksUploadersCount = 4;
         this._chunkSize = 1000 * 1000 * 1// 1 mb     
         this._chunksQueue = new LimitedQueue(100);
         this._chunksUploaders = Array(this._chunksUploadersCount).fill().map((_, index) => new ChunkUploader(this._chunksQueue, index));
@@ -28,7 +28,7 @@ class FileUploadService {
                     const chunkDataObject = {
                         index: chunkIndex,
                         fileId: fileId,
-                        data: await this.formatChunk(chunk)
+                        data: await chunk.text()
                     };
 
                     this._chunksQueue.enqueue(chunkDataObject);

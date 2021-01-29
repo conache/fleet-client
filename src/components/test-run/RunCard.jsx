@@ -61,7 +61,6 @@ class RunCardWidgets extends React.Component {
 
   getRunDurationLabel() {
     const { run } = this.props;
-
     const creationDate = moment(run.CreatedAt);
     const finishedDate = this.runHasFinishedAtTimestamp(run) ? moment(run.FinishedAt) : moment();
     const duration = moment.duration(finishedDate.diff(creationDate));

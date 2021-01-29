@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { mergeDeepLeft } from 'ramda';
 import { __BASE_API_URL__ } from '../environment';
 import { getAuthToken, isAuthenticated } from '../session';
 
@@ -10,7 +9,7 @@ const defaultHeaders = {
   // 'Access-Control-Allow-Headers': 'X-Requested-With", "Origin", "Content-Type", "Accept"',
 };
 
-function createFullUrl(url) {
+export function createFullUrl(url) {
   return `${__BASE_API_URL__}/${url}`;
 }
 
@@ -26,7 +25,10 @@ export function request(method = 'GET', url, body = {}, headers = {}) {
     method,
     url: createFullUrl(url),
     data: body,
-    headers: mergeDeepLeft(defaultHeaders, headers),
+    headers: {
+      ...defaultHeaders,
+      ...headers,
+    },
     crossDomain: true,
   }).then((resp) => {
     if (resp.data.exceptionThrown) {

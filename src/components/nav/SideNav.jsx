@@ -2,13 +2,11 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { bindActionCreators } from 'redux';
-import { logout } from "../../reducers/user.reducer";
 import { connect } from 'react-redux';
 
 class SideNav extends React.Component {
   render() {
-    const { user, logout, history} = this.props;
+    const { user, history, onLogoutClick} = this.props;
 
     return <div className="side-nav">
       <div className="side-nav-container logo" onClick={() => history.push("/")}>river._</div>
@@ -21,7 +19,7 @@ class SideNav extends React.Component {
         
       </div>
       <div className="side-nav-container logout">
-        <div className="logout-btn" onClick={() => logout()}>
+        <div className="logout-btn" onClick={() => onLogoutClick()}>
             <PowerSettingsNewIcon color="primary" />
             <div>logout</div>
         </div>
@@ -30,8 +28,6 @@ class SideNav extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ logout }, dispatch)
-}
-export default connect(null, mapDispatchToProps)(withRouter(SideNav));
+
+export default connect(null, null)(withRouter(SideNav));
 

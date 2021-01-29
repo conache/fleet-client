@@ -16,11 +16,6 @@ export default function reducer(state = Immutable({items: []}), action) {
         items: state.items.find(item => item.id === action.payload.id) ? state.items : [...state.items, action.payload],
         isCreating: state.isCreating - 1,
       };
-
-      if (state.items.find(item => item.id === action.payload.id)) {
-        debugger;
-      }
-
       return state.merge(newState, { deep: true })
     case actionTypes.TEST_RUN_REQUEST_LIST:
       return state.merge({ isListLoading: true })

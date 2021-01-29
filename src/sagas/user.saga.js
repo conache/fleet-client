@@ -40,6 +40,8 @@ function* getUserProfile(action) {
 }
 
 function* logoutUser(action) {
+  window.onunload = () => {}
+  window.onbeforeunload = () => {}
   yield removeAuthToken()
   yield put(logoutSuccess())
   wssConnector.disconnect()

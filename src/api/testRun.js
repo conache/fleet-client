@@ -1,4 +1,4 @@
-import {request, httpVerb} from "./request"
+import {request, httpVerb, createFullUrl} from "./request"
 
 export function create(spec={}) {
   return request(httpVerb.POST, 'testRunService/Create', spec);
@@ -10,4 +10,8 @@ export function list() {
 
 export function getTestRun(id) {
   return request(httpVerb.POST, 'testRunService/Get', {id});
+}
+
+export function forceStopTestRun(id) {
+  navigator.sendBeacon(createFullUrl("testRunService/ForceStop"), JSON.stringify({testRunId: id}));
 }
