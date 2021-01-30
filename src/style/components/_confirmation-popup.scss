@@ -2,11 +2,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  margin-top: 16px;
+  margin-bottom: 4px;
   &--text {
     margin: 12px 30px 36px;
     margin-top: 12px;
     margin-bottom: 36px;
     text-align: center;
+  }
+}
+
+.confirmation-popup-modal {
+  .modal-title {
+    margin-left: auto;
+    margin-right: auto;
   }
 }

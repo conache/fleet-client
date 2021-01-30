@@ -11,7 +11,6 @@ import { RUN_STATES } from "../constants";
 function* createTestRun(action) {
   try {
     const {testRun, fileSpec, jsFileObject} = action.payload;
-    console.warn("Create test run saga")
     console.trace()
     yield put(testRunsActions.requestCreate())
     const response = yield call(() => TestRunApiService.create({testRun, fileSpec}))

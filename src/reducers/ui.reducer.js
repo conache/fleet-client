@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { actionTypes, clearNotification } from "../actions/ui.actions"
+import { actionTypes, clearNotification, setActiveModal, hideIfActive } from "../actions/ui.actions"
 
 const defaultNotificationConfig = {
   message: "",
@@ -32,6 +32,17 @@ export default function reducer(state = Immutable({}), action) {
       return state.merge({
         notification: null,
       });
+    case actionTypes.ACTIVE_MODAL:
+      return state.merge({
+        activeModal: action.payload,
+      });
+    case actionTypes.HIDE_MODAL:
+      if (state.activeModal !== action.payload) {
+        return state;
+      }
+      return state.merge({
+        activeModal: null,
+      });
     default:
       return state;
   }
@@ -39,4 +50,16 @@ export default function reducer(state = Immutable({}), action) {
 
 export const clearNotifications = () => {
   return clearNotification();
+}
+
+export const showModal = (modalIdentificator) => {
+  return setActiveModal(modalIdentificator)
+}
+
+export const hideAllModals = () => {
+  return setActiveModal(null)
+}
+
+export const hideModal = (modalIdentificator) => {
+  return hideIfActive(modalIdentificator)
 }
