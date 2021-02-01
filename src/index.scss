@@ -5,6 +5,7 @@ html {
   margin: 0;
   margin-right: calc(100vw - 100%);
   position: relative;
+  overflow: hidden;
 }
 
 *, *:before, *:after {

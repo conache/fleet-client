@@ -17,6 +17,10 @@
   &-label-main {
     font-weight: bold;
     color: $font-color-secondary;
+    width: 276px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
   }
 
   &-label-secondary {

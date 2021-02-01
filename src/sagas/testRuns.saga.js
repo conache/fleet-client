@@ -6,16 +6,24 @@ import * as uiActions from "../actions/ui.actions";
 import * as testRunsActions from "../actions/testRuns.actions";
 import fileActions from "../actions/files.actions";
 import { decodeTestRunStateMetadata } from "../utils";
-import { RUN_STATES } from "../constants";
+import { RUN_STATES, MAIN_PAGES_PATHS } from "../constants";
+import history from "../history";
+
+function forwardTo(location) {
+  history.push(location);
+}
 
 function* createTestRun(action) {
   try {
     const {testRun, fileSpec, jsFileObject} = action.payload;
-    console.trace()
     yield put(testRunsActions.requestCreate())
     const response = yield call(() => TestRunApiService.create({testRun, fileSpec}))
     yield put(testRunsActions.createSuccess({...response.testRun, state: RUN_STATES.INITIATED_DONE}))
     yield put(uiActions.showSuccessNotification({message: "Run successfully created"}))
+    yield put(uiActions.hideActiveModal())
+    if (MAIN_PAGES_PATHS.indexOf(window.location.pathname) < 0) {
+      forwardTo(MAIN_PAGES_PATHS[0])
+    }
     yield put(fileActions.shallowCreateFile({testRunId: response.testRun.id, jsObject: jsFileObject}))
   } catch (err) {
     yield put(uiActions.showErrorNotification({message: "Test run couldn't be created."}));
@@ -57,7 +65,7 @@ function* getTestRun(action) {
     const {file} = yield call(() => UploadsApiService.getFile(testRun.fileId))
     yield put(fileActions.getSuccess(file));
   } catch (err) {
-    yield put(uiActions.showErrorNotification({message: "Error retrieving file details for current test run."}))
+    // yield put(uiActions.showErrorNotification({message: "Error retrieving file details for current test run."}))
     console.warn("Error encountered while retrieving file details for current test run:", err);
   }
 }

@@ -8,15 +8,9 @@ import { isTerminalRunState } from '../utils';
 export default function reducer(state = Immutable({items: []}), action) {
   switch (action.type) {
     case actionTypes.TEST_RUN_REQUEST_CREATE:
-      return state.merge({ isCreating: (state.isCreating || 0) + 1 }, { deep: true })
+      return state.merge({creating: true})
     case actionTypes.TEST_RUN_CREATE_SUCCESS:
-      const newState = {
-        // this case may happen when list response is retrieved faster than create one
-        // this causes the created item being added twice in state 
-        items: state.items.find(item => item.id === action.payload.id) ? state.items : [...state.items, action.payload],
-        isCreating: state.isCreating - 1,
-      };
-      return state.merge(newState, { deep: true })
+      return state.merge({items: [...state.items, action.payload], creating: false}, { deep: true })
     case actionTypes.TEST_RUN_REQUEST_LIST:
       return state.merge({ isListLoading: true })
     case actionTypes.TEST_RUN_LIST_SUCCESS:

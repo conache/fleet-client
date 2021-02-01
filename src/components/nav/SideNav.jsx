@@ -1,7 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { connect } from 'react-redux';
 
 class SideNav extends React.Component {
@@ -11,7 +10,7 @@ class SideNav extends React.Component {
     return <div className="side-nav">
       <div className="side-nav-container logo" onClick={() => history.push("/")}>river._</div>
       <div className="side-nav-container user">
-        <AccountCircleIcon className="account-icon"/>
+        <img alt="profile" className="profile-picture" src={user.picture} />
         {user ? <div className="user-details">
           <div>{user.email}</div>
           <div>{user.name}</div>

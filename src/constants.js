@@ -14,3 +14,5 @@ export const RUN_STATES = {
   FINISHED: "finished",
   ERROR: "error",
 }
+
+export const MAIN_PAGES_PATHS = ["/", "/all-runs-page" , ""]

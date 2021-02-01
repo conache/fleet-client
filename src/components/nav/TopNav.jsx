@@ -2,8 +2,15 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 import { withRouter } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
+import {MAIN_PAGES_PATHS} from "../../constants";
+import { Grid } from '@material-ui/core';
+
+
+const MAIN_PAGE_TITLE = "All runs";
 
 class TopNav extends React.Component {
   constructor(...args) {
@@ -21,7 +28,7 @@ class TopNav extends React.Component {
       case "runs":
         return "Run overview"
       default:
-        return "All runs"
+        return MAIN_PAGE_TITLE
     }
   }
 
@@ -33,10 +40,22 @@ class TopNav extends React.Component {
   }
 
   render() {
+    const {testRunsCount} = this.props;
+
     return <AppBar position="static" className="top-nav">
+        <Grid item xs={2}>
+        </Grid>
         <Toolbar className="top-nav-toolbar">
+        {MAIN_PAGES_PATHS.indexOf(window.location.pathname) >= 0 ? null 
+            : <IconButton className="top-nav-back-btn" color="inherit" onClick={() => this.props.history.goBack()}>
+              <ArrowBackIosRoundedIcon className="top-nav-back-icon" />
+            </IconButton>
+        }
           <Typography className="page-title">
             {this.state.title}
+            {this.state.title !== MAIN_PAGE_TITLE ? 
+              null : <div className="page-title-results-label">{testRunsCount > 1 ? ` - ${testRunsCount} results` : ""}</div>
+            }
           </Typography>
           <div className="buttons-section">
             <Button color="inherit" onClick={() => this.props.onNewRunClick()}>New run</Button>

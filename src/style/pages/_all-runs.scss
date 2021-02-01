@@ -1,3 +1,26 @@
 .run-card:not(:last-child) {
   margin-bottom: 26px;
 }
+
+.runs-batch-title {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 40px; 
+
+  .label {
+    font-size: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+
+    color: rgba(0, 0, 0, 0.7);
+    
+  }
+
+  .line {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 40%;
+  }
+}

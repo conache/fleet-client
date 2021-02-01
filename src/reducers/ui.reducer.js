@@ -43,6 +43,10 @@ export default function reducer(state = Immutable({}), action) {
       return state.merge({
         activeModal: null,
       });
+    case actionTypes.HIDE_ACTIVE_MODAL:
+      return state.merge({
+        activeModal: null,
+      });
     default:
       return state;
   }

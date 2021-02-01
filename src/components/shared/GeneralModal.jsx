@@ -14,6 +14,7 @@ const GeneralModal = memo((props) => {
       BackdropProps={{
         timeout: 500,
       }}
+      {...props}
     >
       <Fade in={showModal}>
        <div className="modal-container">

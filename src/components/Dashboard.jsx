@@ -17,6 +17,7 @@ import {ConfrimationPopup} from "./shared/ConfirmationPopup";
 import { bindActionCreators } from 'redux';
 import { logout } from "../reducers/user.reducer";
 import {showModal, hideAllModals, hideModal} from "../reducers/ui.reducer";
+import { createTestRun } from "../reducers/testRuns.reducer";
 import ReportProblemRoundedIcon from '@material-ui/icons/ReportProblemRounded';
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 
@@ -59,15 +60,16 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { match, currentUser, testRunsLoading, testRunCreating, history, activeModal } = this.props;
+    const { match, currentUser, testRuns, testRunsLoading, testRunCreating, activeModal, creatingTestRun  } = this.props;
 
     return [
+      <TopNav onNewRunClick={() => this.props.showModal(MODAL.NEW_RUN)} testRunsCount={testRuns.length}/>,
       <Grid container direction="row" className="dashboard-container">
         <Grid item xs={2}>
           <SideNav user={currentUser} onLogoutClick={() => this.handleLogoutClick()}/>
         </Grid>
         <Grid item xs={10} className="dashboard-section">
-          <TopNav onNewRunClick={() => this.props.showModal(MODAL.NEW_RUN)} />
+          
           <Grid container className="dashboard-content">
             {testRunsLoading || (testRunCreating > 0) ? <LoadingSpinner /> : null}
             <div className="content-container">
@@ -87,12 +89,11 @@ class Dashboard extends React.Component {
 
 
         <GeneralModal title="Create new run" name="new-run" showModal={MODAL.NEW_RUN === activeModal}
-                      closeModalFct={() => this.props.hideModal(MODAL.NEW_RUN)} >
-
-          <NewRunTemplate onCancel={() => this.props.hideModal(MODAL.NEW_RUN)} onConfirm={() => {
-            this.props.hideModal(MODAL.NEW_RUN);
-            history.push("/all-runs-page");
-          }} />
+                      disableEscapeKeyDown={true}
+                      disableBackdropClick={true}
+                      closeModalFct={() => !creatingTestRun && this.props.hideModal(MODAL.NEW_RUN)} >
+          <NewRunTemplate onCancel={() => !creatingTestRun && this.props.hideModal(MODAL.NEW_RUN)}
+            onConfirm={(name, file) => this.handleTestRunCreateConfirmation(name, file)} />
         </GeneralModal>
 
         <GeneralModal title="Are you sure you want to logout?" name="logout-modal"
@@ -113,19 +114,33 @@ class Dashboard extends React.Component {
         <GeneralModal title="Internet connectivity issues" name="connection-issues-modal"
           showModal={MODAL.OFFLINE === activeModal}
           className="confirmation-popup-modal"
-          closeModalFct={() => this.hideModal(MODAL.OFFLINE)}>
+          closeModalFct={() => this.props.hideModal(MODAL.OFFLINE)}>
           <ConfrimationPopup
             icon={<SignalWifiOffIcon className="connection-issues-icon"/>}
             text={`Your pending test runs will continue after reconnecting to the internet.
             In order not to affect your evaluations, do not close or refresh the current window.
             `}
             btnLabel={"OK"}
-            onBtnClick={() => this.hideModal(MODAL.OFFLINE)}
+            onBtnClick={() => this.props.hideModal(MODAL.OFFLINE)}
           />
         </GeneralModal>
 
       </Grid>
     ]
+  }
+
+  
+  handleTestRunCreateConfirmation(runName, file) {
+    this.props.createTestRun(
+      {
+        name: runName,
+      }, {
+      name: file.name,
+      size: file.size,
+      maxChunkSize: 1000 * 1000 * 1 // 1mb 
+    },
+      file
+    );
   }
 
   handleLogoutClick() {
@@ -140,14 +155,14 @@ class Dashboard extends React.Component {
 function mapStateToProps(state) {
   return {
     testRunsLoading: pathOr(false, ["testRuns", "isListLoading"], state),
-    testRunCreating: pathOr(0, ["testRuns", "isCreating"], state),
+    creatingTestRun: pathOr(false, ["testRuns", "creating"], state),
     testRuns: pathOr([], ["testRuns", "items"], state),
     activeModal: pathOr([], ["ui", "activeModal"], state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ logout, showModal, hideAllModals, hideModal }, dispatch)
+  return bindActionCreators({ logout, showModal, hideAllModals, hideModal, createTestRun}, dispatch)
 }
 
 

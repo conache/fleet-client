@@ -4,7 +4,7 @@ import { getAuthToken, isAuthenticated } from '../session';
 
 const defaultHeaders = {
   Accept: 'application/json',
-  'Content-Type': 'application/json',
+  'Content-Type': 'application/json;charset=utf-8',
   // 'Access-Control-Allow-Origin': '*',
   // 'Access-Control-Allow-Headers': 'X-Requested-With", "Origin", "Content-Type", "Accept"',
 };

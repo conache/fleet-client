@@ -43,9 +43,8 @@ class RunCardWidgets extends React.Component {
   getRunCreationLabel() {
     const { run } = this.props;
     const creationDate = moment(run.CreatedAt);
-
-    if (creationDate.diff(moment.now(), 'days') > 2) {
-      return creationDate.format("MM-DD-YYYY");
+    if (moment().diff(creationDate, 'hours') > 24) {
+      return creationDate.format("DD MMM YYYY HH:mm");
     }
     return creationDate.fromNow()
   }
