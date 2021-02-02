@@ -15,4 +15,9 @@ export const RUN_STATES = {
   ERROR: "error",
 }
 
+export const USER_STATUS = {
+  REQUESTING_CREATE: "REQUESTING_CREATE",
+  REQUESTING_AUTH: "REQUESTING_AUTH",
+}
+
 export const MAIN_PAGES_PATHS = ["/", "/all-runs-page" , ""]

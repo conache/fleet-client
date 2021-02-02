@@ -1,30 +1,40 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import * as uiActions from "../actions/ui.actions";
-import { actionTypes, getProfileSuccess, loginSuccess, logoutSuccess, signUpSuccess } from "../actions/user.actions";
+import { actionTypes, getProfileSuccess, loginSuccess, logoutSuccess, signUpSuccess, setStatus } from "../actions/user.actions";
 import wssConnector from "../services/wss-subscriber/WssConnector";
 import * as UserApiService from "../api/user";
 import {setAuthToken, removeAuthToken} from "../session";
 import history from "../history";
+import { USER_STATUS } from "../constants";
 
 function* loginUser(action) {
+  let response = {};
   try {
-    const response = yield call(() => UserApiService.login(action.payload))
+    yield put(setStatus({status: USER_STATUS.REQUESTING_AUTH}));
+    response = yield call(() => UserApiService.login(action.payload))
+    yield put(setStatus({status: null}));
     setAuthToken(response.token.token)
     yield put(loginSuccess(response.user))
     history.push("/")
   } catch (err) {
-    console.log("Error encountered on login:", err)
+    yield put(uiActions.showErrorNotification({message: err.response?.data?.detail, anchorOrigin: {vertical: 'top',horizontal: 'right',}}));
+  } finally {
+    yield put(setStatus({status: null}));
   }
 }
 
 function* signUpUser(action) {
   try {
+    yield put(setStatus({status: USER_STATUS.REQUESTING_CREATE}));
     yield call(() => UserApiService.signUp(action.payload))
+    yield put(setStatus({status: null}))
     yield put(signUpSuccess())
-  
+    yield put(uiActions.showSuccessNotification({message: "Account successfully created", anchorOrigin: {vertical: 'top',horizontal: 'right',}}))
     history.push("/login")
   } catch (err) {
-    console.log("Error encountered on signUp", err)
+    yield put(uiActions.showErrorNotification({message: err.response?.data?.detail, anchorOrigin: {vertical: 'top',horizontal: 'right',}}));
+  } finally {
+    yield put(setStatus({status: null}))
   }
 }
 

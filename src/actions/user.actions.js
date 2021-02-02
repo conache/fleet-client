@@ -9,6 +9,7 @@ export const actionTypes = {
   SIGNUP_SUCCESS: "SIGNUP_SUCCESS",
   GET_PROFILE_SUCCESS: "GET_PROFILE_SUCCESS",
   LOGOUT_SUCCESS: "LOGOUT_SUCCESS",
+  SET_STATUS: "SET_STATUS",
 }
 
 export const initiateLogin = createAction(actionTypes.INITIATE_LOGIN);
@@ -19,3 +20,4 @@ export const loginSuccess = createAction(actionTypes.LOGIN_SUCCESS);
 export const getProfileSuccess = createAction(actionTypes.GET_PROFILE_SUCCESS);
 export const signUpSuccess = createAction(actionTypes.SIGNUP_SUCCESS);
 export const logoutSuccess = createAction(actionTypes.LOGOUT_SUCCESS);
+export const setStatus = createAction(actionTypes.SET_STATUS);

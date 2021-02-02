@@ -31,9 +31,6 @@ export function request(method = 'GET', url, body = {}, headers = {}) {
     },
     crossDomain: true,
   }).then((resp) => {
-    if (resp.data.exceptionThrown) {
-      throw new Error(resp.data.message);
-    }
     return resp.data;
   });
 }

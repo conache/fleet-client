@@ -1,6 +1,7 @@
 import React from 'react';
 import Logo from "../shared/Logo";
 import MainIcon from "./MainIcon";
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 
 class LandingPage extends React.Component {
@@ -17,6 +18,7 @@ class LandingPage extends React.Component {
       <div className="showcase">
         <div key="toolbar" className="showcase-toolbar">
           <Logo />
+          <a className="gh-link" href="https://github.com/unibuc-cs/river"><GitHubIcon /></a>
         </div>
         <div key="content" className="showcase-content">
           <div className="showcase-content-text-container">

@@ -10,7 +10,19 @@
   &-toolbar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     z-index: 2;
+  }
+
+  .gh-link {
+    text-decoration: none !important;
+    color: black;
+
+    :focus {
+      text-decoration: none !important;
+      color: black;
+    }
   }
 
   .showcase-content {

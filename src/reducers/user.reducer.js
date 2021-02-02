@@ -3,6 +3,8 @@ import {actionTypes, initiateGetProfile, initiateLogin, initiateLogout, initiate
 
 export default function reducer(state = Immutable({}), action) {
   switch (action.type) {
+    case actionTypes.SET_STATUS:
+      return state.merge(action.payload);
     case actionTypes.LOGOUT_SUCCESS:
       return Immutable({});
     case actionTypes.GET_PROFILE_SUCCESS:
