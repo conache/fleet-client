@@ -2,13 +2,16 @@ import React from 'react';
 import {withRouter} from 'react-router-dom';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import { connect } from 'react-redux';
+import Logo from '../shared/Logo';
 
 class SideNav extends React.Component {
   render() {
     const { user, history, onLogoutClick} = this.props;
 
     return <div className="side-nav">
-      <div className="side-nav-container logo" onClick={() => history.push("/")}>river._</div>
+      <div className="side-nav-container">
+        <Logo onClick={() => history.push("/")} />
+      </div>
       <div className="side-nav-container user">
         <img alt="profile" className="profile-picture" src={user.picture} />
         {user ? <div className="user-details">

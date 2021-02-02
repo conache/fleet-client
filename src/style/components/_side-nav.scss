@@ -11,18 +11,12 @@
 }
 
 .side-nav-container {
-  &.logo {
-    font-size: 44px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 44px;
-    font-weight: bold;
-    text-align: center;
+  .logo {
     padding-top: 40px;
     padding-bottom: 40px;
     border-bottom: 2px solid $inactive-background-color-secondary;
     cursor: pointer;
-  };
+  }
 
   &.user {
     flex-grow: 1;

@@ -43,9 +43,9 @@ class ApplicationContainer extends React.Component {
   }
 
   render() {
-    return <ThemeProvider theme={theme}>
-      <SnackbarProvider>
-        <Application {...this.props}/>
+    return <ThemeProvider  key="theme" theme={theme}>
+      <SnackbarProvider key="provider">
+        <Application key="application" {...this.props}/>
       </SnackbarProvider>
     </ThemeProvider>
   }

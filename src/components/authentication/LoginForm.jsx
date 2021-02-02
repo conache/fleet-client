@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Paper, TextField, Grid, Button } from '@material-ui/core';
 import {login} from "../../reducers/user.reducer";
 import { Formik, Form } from 'formik';
+import Logo from '../shared/Logo';
 
 class LoginForm extends React.Component {
   render() {
@@ -12,7 +13,9 @@ class LoginForm extends React.Component {
     return <Grid container direction="column" justify="center" alignItems="center"
       style={{ marginTop: '15%' }}>
       <Paper elevation={3} style={{maxWidth: "400px",}}>
-        <div className="side-nav-container logo">river._</div>
+        <div className="side-nav-container">
+          <Logo />
+        </div>
         <Formik initialValues={{ email: "", password: "" }} onSubmit={login} >
           {props => {
             const { handleChange } = props;

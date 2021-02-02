@@ -1,0 +1,80 @@
+.showcase {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(249,253,255);
+  padding: 20px 6% 60px 8%;
+  position: relative;
+
+  &-toolbar {
+    display: flex;
+    flex-direction: row;
+    z-index: 2;
+  }
+
+  .showcase-content {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    z-index: 2;
+
+    &-text-container {
+      height: 650px;
+      width: 50%;
+      max-width: 600px;
+      padding-top: 64px;
+      padding-right: 20px;
+    }
+
+    &-icon {
+      max-width: 800px;
+    }
+
+    .primary-text {
+      font-size: 56px;
+      font-weight: 900;
+      width: 100%;
+    }
+
+    .secodary-text {
+      padding: 48px 20px 24px 0px;
+      width: 100%;
+      font-size: 20px;
+      color: rgba(0, 0, 0, .7);
+    }
+
+    .buttons-containers {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      margin-top: 24px;
+    }
+
+    .landing-button {
+      cursor: pointer;
+      padding: 10px;
+      border: 3px solid black;
+      border-radius: 15px;
+      text-align: center;
+      width: 100px;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .landing-button.secondary {
+      color: $main-theme-color;
+      border-color: $main-theme-color;
+      margin-left: 16px;
+    }
+  }
+}
+
+.background-vector {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
