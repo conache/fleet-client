@@ -9,7 +9,7 @@ import NoRuns from './NoRuns';
 import moment from 'moment';
 
 const RunsBatchTitle = (props) => {
-  return <div className="runs-batch-title">
+  return <div className="runs-batch-title" {...props}>
     <div className="label">{props.label}</div>
     <div className="line" />
   </div>
@@ -41,7 +41,7 @@ class AllRunsPage extends React.Component {
     return [
       displayRunsInBatches ? <RunsBatchTitle label="Latest runs" />: null,
       this.getRunsCards(latestRuns),
-      displayRunsInBatches ? <RunsBatchTitle label="Older runs" /> : null,
+      displayRunsInBatches ? <div className="older-runs"><RunsBatchTitle label="Older runs" /></div> : null,
       this.getRunsCards(olderRuns)
     ]
   }

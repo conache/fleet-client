@@ -56,6 +56,7 @@
       width: 100%;
       font-size: 20px;
       color: rgba(0, 0, 0, .7);
+      line-height: 1.4;
     }
 
     .buttons-containers {
@@ -87,6 +88,6 @@
 .background-vector {
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: -3px;
   z-index: 1;
 }

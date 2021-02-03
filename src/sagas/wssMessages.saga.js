@@ -1,7 +1,7 @@
 import React from 'react';
 import history from "../history";
 import { Button } from "@material-ui/core";
-import { takeEvery, put, select, call } from "redux-saga/effects";
+import { takeEvery, put, select, call, delay } from "redux-saga/effects";
 import * as TestRunApiService from "../api/testRun";
 import { actionTypes } from "../actions/wssMessages.actions";
 import fileActions from "../actions/files.actions";
@@ -18,7 +18,18 @@ function* handleFileEntityCreation(action) {
     const { testRunId, stateMetadata } = action.payload;
     yield put(fileActions.updateFileByTestRunId({ testRunId: testRunId, updateData: stateMetadata }));
     const files = yield select(getFiles);
-    const updatedFile = files.find(file => file.testRunId === testRunId);
+
+    // TODO: imporve this
+    // this loop is added to ensure that an entity that represents the uploaded file was (shallowly) created
+    let updatedFile = null;
+    do {
+      yield delay(100);
+      updatedFile = files.find(file => file.testRunId === testRunId);
+      if (!updatedFile) {
+        debugger;
+      }
+    } while (!updatedFile);
+
     yield put(testRunActions.updateTestRunState({ testRunId: updatedFile.testRunId, state: RUN_STATES.FILE_UPLOAD }));
     fileUploadService.startFileUpload(updatedFile.id, updatedFile.jsObject);
   } catch (err) {

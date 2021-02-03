@@ -113,7 +113,6 @@ class Dashboard extends React.Component {
 
         <GeneralModal title="Internet connectivity issues" name="connection-issues-modal"
           showModal={MODAL.OFFLINE === activeModal}
-          className="confirmation-popup-modal"
           closeModalFct={() => this.props.hideModal(MODAL.OFFLINE)}>
           <ConfrimationPopup
             icon={<SignalWifiOffIcon className="connection-issues-icon"/>}

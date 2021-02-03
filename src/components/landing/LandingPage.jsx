@@ -26,7 +26,10 @@ class LandingPage extends React.Component {
               <div>Fuzz test your binaries </div>
               <div>using AI</div>
             </div>
-            <div className="secodary-text">Aest binaries online using River framework.River is an open-source framework that uses AI to guide the fuzz testing of binary programs.</div>
+            <div className="secodary-text">
+              <div>River is the first open-source platform that offers a concolic execution engine with reinforcement learning capabilities.</div>
+              <div style={{marginTop: "6px"}}>For faster, better and cheaper automated testing processes.</div>
+            </div>
             <div className="buttons-containers">
               <div className="landing-button primary" onClick={() => this.handleLoginButtonClick()}>Login</div>
               <div className="landing-button secondary" onClick={() => this.handleSignUpButtonClick()}>Sign up</div>
@@ -35,7 +38,7 @@ class LandingPage extends React.Component {
           <MainIcon className="showcase-content-icon" />
         </div>
           <div className="background-vector">
-          <svg width="1870" height="506" viewBox="0 0 1870 506" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="1980" height="520" viewBox="0 0 1870 506" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M291 420C213.5 440.5 194.5 401.5 0 506H1899V0C1828 84.6667 1661.4 242.5 1563 196.5C1440 139 1338 108.5 1114.5 239.5C891 370.5 668 252 504 280.5C340 309 368.5 399.5 291 420Z" fill="#F3B49B" fill-opacity="0.71"/>
           </svg>
         </div>
