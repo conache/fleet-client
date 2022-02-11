@@ -12,7 +12,7 @@
     "event-target-shim": "^5.0.1",
     "formik": "^2.1.5",
     "moment": "^2.29.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "notistack": "^1.0.2",
     "rambda": "^5.9.0",
     "ramda": "^0.27.1",
